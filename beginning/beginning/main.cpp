@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -38,7 +39,6 @@ void fopenFile(string aPath, int fo = 1, int fb = 1)
 void foo_c(void)
 {
 }
-
 void foo_cpp()
 {
 }
@@ -55,13 +55,13 @@ int main()
 
     auto un = i;        // from c++11 or c++14
 
-    foo(f);             // error
+    //foo(f);             // error
 
     foo(i);
 
     fopenFile("1.txt");
 
-    foo_cpp(1);         // error
+    //foo_cpp(1);         // error
     foo_cpp_un(1,2,3);
 
     return 0;

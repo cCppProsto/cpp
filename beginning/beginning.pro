@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    beginning
+    beginning \
+    beginning_lesson_2
