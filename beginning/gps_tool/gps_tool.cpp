@@ -116,16 +116,20 @@ namespace common
     {
         double az1 = aP1.azimuthTo(aP2);
         double az2 = aP2.azimuthTo(aP3);
+        double res = 0.;
 
         if(az1 >= 0.0 && az1 < 90.0)
-            return (az2 - 90.0) + (90.0 - az1);
+            res = (az2 - 90.0) + (90.0 - az1);
         if(az1 >= 90.0 && az1 < 180.0)
-            return (az2 - 180.0) + (180.0 - az1);
+            res = (az2 - 180.0) + (180.0 - az1);
         if(az1 >= 180.0 && az1 < 270.0)
-            return (az2 - 270.0) + (270.0 - az1);
+            res = (az2 - 270.0) + (270.0 - az1);
         if(az1 >= 270.0 && az1 <= 360.0)
-            return (az2 - 360.0) + (360.0 - az1);
-        return 0.0;
+            res = (az2 - 360.0) + (360.0 - az1);
+
+        if(res < 0.0)
+            res = 360.0 + res;
+        return res;
     }
 }
 
@@ -140,7 +144,6 @@ Latitude::Latitude(double aDegree)
 Latitude::Latitude(const Latitude &other)
     :mPoint{other.mPoint.degree, other.mPoint.ch}
 {
-    std::cout << "copy constructor" << std::endl;
 }
 //------------------------------------------------------------------------------
 Latitude &Latitude::operator=(const Latitude &aObj)
@@ -149,8 +152,6 @@ Latitude &Latitude::operator=(const Latitude &aObj)
         return *this;
     mPoint.degree = aObj.mPoint.degree;
     mPoint.ch     = aObj.mPoint.ch;
-
-    std::cout << "operator = copy" << std::endl;
 
     return *this;
 }
@@ -245,21 +246,24 @@ const degreeD &Longitude::point()const
 
 //----------------------- POINT ------------------------------------------------
 //------------------------------------------------------------------------------
-Point2D::Point2D(double aLatitude, double aLongitude)
+Point2D::Point2D(double aLatitude, double aLongitude, std::string aDescription)
     :mLatitude(aLatitude)
     ,mLongitude(aLongitude)
+    ,mDescription(aDescription)
 {
 }
 //------------------------------------------------------------------------------
-Point2D::Point2D(const Latitude &aLat, const Longitude &aLong)
+Point2D::Point2D(const Latitude &aLat, const Longitude &aLong, std::string aDescription)
     :mLatitude(aLat)
     ,mLongitude(aLong)
+    ,mDescription(aDescription)
 {
 }
 //------------------------------------------------------------------------------
 Point2D::Point2D(const Point2D &aObj)
     :mLatitude(aObj.mLatitude)
     ,mLongitude(aObj.mLongitude)
+    ,mDescription(aObj.mDescription)
 {
 }
 //------------------------------------------------------------------------------
@@ -268,8 +272,9 @@ Point2D &Point2D::operator=(const Point2D &aObj)
     if(this == &aObj)
         return *this;
 
-    mLatitude  = aObj.mLatitude;
-    mLongitude = aObj.mLongitude;
+    mLatitude    = aObj.mLatitude;
+    mLongitude   = aObj.mLongitude;
+    mDescription = aObj.mDescription;
 
     return *this;
 }
@@ -282,6 +287,11 @@ const Latitude &Point2D::latitude()const
 const Longitude &Point2D::longitude()const
 {
     return mLongitude;
+}
+//------------------------------------------------------------------------------
+const std::string &Point2D::description()const
+{
+    return mDescription;
 }
 //------------------------------------------------------------------------------
 bool Point2D::operator==(const Point2D &aRhs) const
@@ -344,4 +354,133 @@ double Point2D::azimuthTo(const Point2D &aTarget) const
     return (anglerad2 * 180.0) / constants::PI;
 }
 
+
+//------------------------------------------------------------------------------
+TrackPoints2D::TrackPoints2D()
+    :mDistance(0.0)
+{
 }
+//------------------------------------------------------------------------------
+TrackPoints2D::TrackPoints2D(std::initializer_list<Point2D> aInitList)
+{
+    for( auto i : aInitList)
+        add(i);
+}
+//------------------------------------------------------------------------------
+TrackPoints2D::TrackPoints2D(const TrackPoints2D &aObj)
+    :mDistance(aObj.mDistance)
+    ,mAzimuths(aObj.mAzimuths)
+    ,mDistances(aObj.mDistances)
+    ,mPoints(aObj.mPoints)
+{
+}
+//------------------------------------------------------------------------------
+TrackPoints2D &TrackPoints2D::operator=(const TrackPoints2D &aObj)
+{
+    if(this == &aObj)
+        return *this;
+
+    mDistance = aObj.mDistance;
+
+    mAzimuths.resize(aObj.mAzimuths.size());
+    std::copy(aObj.mAzimuths.begin(),
+              aObj.mAzimuths.end(),
+              mAzimuths.begin());
+
+    mDistances.resize(aObj.mDistances.size());
+    std::copy(aObj.mDistances.begin(),
+              aObj.mDistances.end(),
+              mDistances.begin());
+
+    mPoints.clear();
+    mPoints.reserve(aObj.mPoints.size());
+    for(auto i : aObj.mPoints)
+        mPoints.push_back(i);
+
+    return *this;
+}
+//------------------------------------------------------------------------------
+void TrackPoints2D::add(const Point2D &aPoint)
+{
+    double distance = 0;
+
+    if(mPoints.size() >= 1)
+    {
+        Point2D &pp = mPoints[mPoints.size() - 1];
+        auto    &pa = mAzimuths[mAzimuths.size() - 1];
+        auto    &pd = mDistances[mDistances.size() - 1];
+
+        pd = pp.distanceTo(aPoint);
+        pa.first = pp.azimuthTo(aPoint);
+
+        mDistance += pd;
+
+        if(mPoints.size() >= 2)
+        {
+            Point2D &ppp = mPoints[mPoints.size() - 2];
+            auto    &ppa = mAzimuths[mAzimuths.size()- 2];
+            ppa.second   = common::courseAzimuth(ppp, pp, aPoint);
+        }
+    }
+
+    mAzimuths.push_back(std::pair<double, double>{0.,0.});
+    mDistances.push_back(distance);
+    mPoints.push_back(aPoint);
+}
+//------------------------------------------------------------------------------
+const std::pair<double, double> &TrackPoints2D::Azimuths(size_t aIndex)const
+{
+    return mAzimuths[aIndex];
+}
+//------------------------------------------------------------------------------
+Point2D &TrackPoints2D::operator[](size_t aIndex)
+{
+    return mPoints[aIndex];
+}
+//------------------------------------------------------------------------------
+const Point2D &TrackPoints2D::operator[](size_t aIndex) const
+{
+    return mPoints[aIndex];
+}
+//------------------------------------------------------------------------------
+size_t TrackPoints2D::num_of_points()const
+{
+    return mPoints.size();
+}
+//------------------------------------------------------------------------------
+const double &TrackPoints2D::distance()const
+{
+    return mDistance;
+}
+
+
+/*
+The formula for heading between two lat/long coords is:
+=atan2(cos(lat1)*sin(lat2)-sin(lat1)*cos(lat2)*cos(lon2-lon1), sin(lon2-lon1)*cos(lat2))
+where lat2/lon2 is your end point, lat1/lon1 is your start point.
+Your answer will be between -pi and pi radians.
+To get the heading in degrees, convert your radians to degrees then do:
+(degrees+360)%360 = heading. The heading will then be 0 for north, 90 for east etc.
+The compass heading means nothing, unless you need to adjust your heading
+from true north to magnetic north.
+*/
+//------------------------------------------------------------------------------
+/*
+double azimuth(const Point2D &p1, const Point2D &p2)
+{
+    double res = 0.0;
+
+    double lat1 = common::toRadian(p1.latitude());
+    double lat2 = common::toRadian(p2.latitude());
+    double lon1 = common::toRadian(p1.longitude());
+    double lon2 = common::toRadian(p2.longitude());
+
+    res = atan2(cos(lat1)*sin(lat2)-sin(lat1)*cos(lat2)*cos(lon2-lon1), sin(lon2-lon1)*cos(lat2));
+
+    res = radianToDegree(res);
+    res = (res + 360.) / 360.;
+    return res;
+}
+*/
+}
+

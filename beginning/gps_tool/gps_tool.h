@@ -1,6 +1,10 @@
 #ifndef GPS_TOOL_H
 #define GPS_TOOL_H
 
+#include <vector>
+#include <string>
+#include <initializer_list>
+
 namespace Navigation
 {
 
@@ -101,8 +105,8 @@ private:
 
 struct Point2D
 {
-    Point2D(double, double);
-    Point2D(const Latitude &, const Longitude &);
+    Point2D(double, double, std::string aDesc = "");
+    Point2D(const Latitude &, const Longitude &, std::string aDesc = "");
 
     Point2D(const Point2D &);
     Point2D &operator=(const Point2D &);
@@ -112,6 +116,7 @@ struct Point2D
 
     const Latitude &latitude()const;
     const Longitude &longitude()const;
+    const std::string &description()const;
 
     bool operator==(const Point2D &) const;
     bool operator!=(const Point2D &) const;
@@ -120,9 +125,72 @@ struct Point2D
     double azimuthTo(const Point2D &) const;
 
 private:
-    Latitude  mLatitude;
-    Longitude mLongitude;
+    Latitude    mLatitude;
+    Longitude   mLongitude;
+    std::string mDescription;
 };
+
+struct TrackPoints2D
+{
+    TrackPoints2D();
+    TrackPoints2D(std::initializer_list<Point2D>);
+
+    TrackPoints2D(const TrackPoints2D &);
+    TrackPoints2D &operator=(const TrackPoints2D &);
+
+    TrackPoints2D &operator=(const TrackPoints2D &&) = delete;
+    TrackPoints2D(const TrackPoints2D &&) = delete;
+
+    void add(const Point2D&);
+
+    const std::pair<double, double> &Azimuths(size_t)const;
+
+    Point2D& operator[](size_t);
+    const Point2D& operator[](size_t) const;
+
+    size_t num_of_points()const;
+    const double &distance()const;
+private:
+    double mDistance;
+
+    /*
+        first  - azimuth to next point(p2) (from p1 to p2 )
+        second - azimuth to next point(p3) (from p2 to p3, relatively vector of movement(p1,p2))
+
+        second needs for drawing arrow on screen, etc. (for information about direction after point)
+
+        example 1:
+                    p1
+                    |
+                    |
+                    |
+              p3----p2
+              first  = 90
+              second = 90
+
+        example 2:
+                    p1
+                    |
+                    |
+                    |
+                    p2-----p3
+              first  = 90
+              second = 270
+
+        example 3:
+                    p1     p3
+                      \    /
+                       \  /
+                        \/
+                        p2
+              first  = 135
+              second = ~225
+    */
+    std::vector<std::pair<double, double> > mAzimuths;
+    std::vector<double>                     mDistances;
+    std::vector<Point2D>                    mPoints;
+};
+
 
 
 namespace common
@@ -169,6 +237,8 @@ namespace common
     */
     double courseAzimuth(const Point2D&, const Point2D&, const Point2D&);
 }
+
+
 
 /*
 Formula for the calculation Radius

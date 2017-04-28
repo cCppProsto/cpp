@@ -6,4 +6,5 @@ SUBDIRS += \
     3_first_class \
     class_constructors \
     enums \
-    gps_tool
+    gps_tool \
+    stl_vector

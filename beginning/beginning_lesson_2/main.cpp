@@ -8,10 +8,12 @@ using namespace std;
 const double CPP_PI = 3.141231234;
 constexpr double CPP_PI_2 = CPP_PI / 2.;
 
+
 constexpr int f_cexpr()
 {
     return ((CPP_PI_2 * 10.) / 100.) * 2000.;
 }
+
 
 namespace ns_file
 {
