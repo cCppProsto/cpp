@@ -165,7 +165,7 @@ private:
                     |
                     |
               p3----p2
-              first  = 90
+              first  = 180
               second = 90
 
         example 2:
@@ -174,7 +174,7 @@ private:
                     |
                     |
                     p2-----p3
-              first  = 90
+              first  = 180
               second = 270
 
         example 3:

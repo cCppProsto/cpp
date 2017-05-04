@@ -1,2 +1,7 @@
 1. Для типов Latitude И Longitude перегрузить операторы >, < вне класса
 2. Реализовать класс TrackPoints
+3. Прочитать о списке инициализации (std::initializer_list)
+4. Прочитать о std::pair< >
+5. Сохранить загруженный трек в файл
+6. Ознакомиться с isdigit, islower, и т.д.
+7. Файлы - ввод/вывод (ifstream, ofstream, fstream)
