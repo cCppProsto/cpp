@@ -7,4 +7,5 @@ SUBDIRS += \
     class_constructors \
     enums \
     gps_tool \
-    stl_vector
+    stl_vector \
+    glfw_engine
