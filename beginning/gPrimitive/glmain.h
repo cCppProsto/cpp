@@ -5,7 +5,9 @@
 
 #include "gppoint.hpp"
 #include "gpline.hpp"
-
+#include "gplines.hpp"
+#include "gpopenlines.hpp"
+#include "gpclosedlines.hpp"
 
 using namespace cpp_prosto::graphical;
 
@@ -23,9 +25,11 @@ private:
     void draw();
 
 private:
-    gpPoint point;
-    gpLine  l1;
-    gpLine  l2;
+    gpPoint       mPoint;
+    gpLine        mLine;
+    gpLines       mLines;
+    gpOpenLines   mOpenLines;
+    gpClosedLines mClosedLines;
 };
 
 #endif // GLMAIN_H

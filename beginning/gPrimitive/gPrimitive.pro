@@ -18,7 +18,10 @@ SOURCES += main.cpp \
     ../../../tools_src/graphical_library/color.cpp \
     ../../../tools_src/graphical_library/gprimitive.cpp \
     ../../../tools_src/graphical_library/gppoint.cpp \
-    ../../../tools_src/graphical_library/gpline.cpp
+    ../../../tools_src/graphical_library/gpline.cpp \
+    ../../../tools_src/graphical_library/gplines.cpp \
+    ../../../tools_src/graphical_library/gpopenlines.cpp \
+    ../../../tools_src/graphical_library/gpclosedlines.cpp
 
 HEADERS += \
     ../../../external_libs/glfw/include/glfw3.h \
@@ -30,7 +33,10 @@ HEADERS += \
     ../../../tools_src/graphical_library/color.hpp \
     ../../../tools_src/graphical_library/gprimitive.hpp \
     ../../../tools_src/graphical_library/gppoint.hpp \
-    ../../../tools_src/graphical_library/gpline.hpp
+    ../../../tools_src/graphical_library/gpline.hpp \
+    ../../../tools_src/graphical_library/gplines.hpp \
+    ../../../tools_src/graphical_library/gpopenlines.hpp \
+    ../../../tools_src/graphical_library/gpclosedlines.hpp
 
 QT   += opengl
 LIBS += -lopengl32
