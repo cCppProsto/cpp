@@ -8,4 +8,5 @@ SUBDIRS += \
     enums \
     gps_tool \
     stl_vector \
-    glfw_engine
+    glfw_engine \
+    gPrimitive
