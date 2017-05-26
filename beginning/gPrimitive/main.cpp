@@ -1,51 +1,173 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 #include "glmain.h"
 
-struct Base
+/*
+struct Document
 {
-    virtual void test()
+    void open(string aFileName)
     {
-        std::cout << "Base\n";
+        mFileName = aFileName;
     }
-    void baseF()
+    void read()
     {
-        std::cout << "baseF\n";
+    }
+    void close()
+    {
+    }
+
+    const string &text() const
+    {
+        return mText;
+    }
+
+    const string &fileName() const
+    {
+        return mFileName;
+    }
+
+protected:
+    string mText;
+    // FILE*
+private:
+    string mFileName;
+};
+
+struct epubDoc : Document
+{
+    void read()
+    {
+        mText = fileName();
     }
 };
 
-struct A : Base
+struct pdfDoc : Document
 {
-    void test()
+    void read()
     {
-        std::cout << "A\n";
+        mText = fileName();
     }
 };
 
+Document doc;
+epubDoc epub;
+pdfDoc  pdf;
 
-struct B : Base
+// if EPUB
+epub.open("Epub");
+epub.read();
+std::cout << epub.text() << std::endl;
+
+// IF PDF
+pdf.open("PDF");
+pdf.read();
+std::cout << pdf.text() << std::endl;
+*/
+
+/*
+struct IDocument
 {
-    void test()
+    void open(string aFileName){mFileName = aFileName;}
+    void close(){}
+
+    virtual void read() = 0;
+
+    const string &text() const { return mText;}
+    const string &fileName() const { return mFileName;}
+
+protected:
+    string mText;
+private:
+    string mFileName;
+};
+
+struct epubDoc : IDocument
+{
+    void read()
     {
-        std::cout << "B\n";
+        mText = fileName();
     }
 };
+
+struct pdfDoc : IDocument
+{
+    void read()
+    {
+        mText = fileName();
+    }
+};
+
+struct rtfDoc : IDocument
+{
+    void read()
+    {
+        mText = fileName();
+    }
+};
+
+void print_doc_text(IDocument *pDoc, string aName)
+{
+    if(pDoc != nullptr)
+    {
+        pDoc->open(aName);
+        pDoc->read();
+        std::cout << pDoc->text() << std::endl;
+    }
+}
+
+struct A
+{
+    virtual void a(){}
+    virtual void b(){}
+};
+
+tbvf - A
+[addr(0x0000) - A::a]
+
+
+struct B : A
+{
+    void a(){}
+};
+
+
+IDocument *pDoc = nullptr;
+
+// if EPUB
+pDoc = new epubDoc;
+print_doc_text(pDoc, "Epub");
+
+//if PDF
+pDoc = new pdfDoc;
+print_doc_text(pDoc, "pdf");
+
+//if RTF
+pDoc = new rtfDoc;
+print_doc_text(pDoc, "rtf");
+
+
+return 0 ;
+
+tbvf - B
+[addr(0x00FF) - A::a]
+
+A *pobj = 0;
+
+pobj = new B;
+
+tbvf[0x00FF]
+
+pobj->a()
+*/
 
 int main()
 {
     glMain glw;
     glw.run();
     return 0;
-
-    Base * pobj = nullptr;
-    pobj = new Base;
-    pobj->test();
-    pobj = new A;
-    pobj->test();
-    pobj = new B;
-    pobj->test();
 
     return 0;
 }
