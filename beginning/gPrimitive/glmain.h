@@ -8,6 +8,9 @@
 #include "gplines.hpp"
 #include "gpopenlines.hpp"
 #include "gpclosedlines.hpp"
+#include "gpcircle.hpp"
+#include "gpplane.hpp"
+#include "gptriangle.hpp"
 
 using namespace cpp_prosto::graphical;
 
@@ -30,6 +33,12 @@ private:
     gpLines       mLines;
     gpOpenLines   mOpenLines;
     gpClosedLines mClosedLines;
+    gpCircle      mCircle;
+    gpCircle      mFilledCircle;
+    gpPlane       mPlane;
+    gpPlane       mFilledPlane;
+    gpTriangle    mTriangle;
+    gpTriangle    mFilledTriangle;
 };
 
 #endif // GLMAIN_H

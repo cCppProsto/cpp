@@ -21,7 +21,10 @@ SOURCES += main.cpp \
     ../../../tools_src/graphical_library/gpline.cpp \
     ../../../tools_src/graphical_library/gplines.cpp \
     ../../../tools_src/graphical_library/gpopenlines.cpp \
-    ../../../tools_src/graphical_library/gpclosedlines.cpp
+    ../../../tools_src/graphical_library/gpclosedlines.cpp \
+    ../../../tools_src/graphical_library/gpcircle.cpp \
+    ../../../tools_src/graphical_library/gpplane.cpp \
+    ../../../tools_src/graphical_library/gptriangle.cpp
 
 HEADERS += \
     ../../../external_libs/glfw/include/glfw3.h \
@@ -36,7 +39,10 @@ HEADERS += \
     ../../../tools_src/graphical_library/gpline.hpp \
     ../../../tools_src/graphical_library/gplines.hpp \
     ../../../tools_src/graphical_library/gpopenlines.hpp \
-    ../../../tools_src/graphical_library/gpclosedlines.hpp
+    ../../../tools_src/graphical_library/gpclosedlines.hpp \
+    ../../../tools_src/graphical_library/gpcircle.hpp \
+    ../../../tools_src/graphical_library/gpplane.hpp \
+    ../../../tools_src/graphical_library/gptriangle.hpp
 
 QT   += opengl
 LIBS += -lopengl32
