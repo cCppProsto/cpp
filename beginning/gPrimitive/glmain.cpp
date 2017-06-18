@@ -95,7 +95,7 @@ void glMain::init()
 
     //------------------- FILLED TRIANGLE ---------------------------
     mFilledTriangle.set_color(Color(eColorType::Yellow));
-    mFilledTriangle.set_fill_color(Color(eColorType::White));
+    mFilledTriangle.set_fill_color(Color(eColorType::Navy));
     mFilledTriangle.set(point2D{650, 400}, point2D{650, 450}, point2D{600, 450});
 
     //------------------- GRID -------------------------------------
