@@ -11,6 +11,7 @@
 #include "gpcircle.hpp"
 #include "gpplane.hpp"
 #include "gptriangle.hpp"
+#include "gpgrid.hpp"
 
 using namespace cpp_prosto::graphical;
 
@@ -39,6 +40,8 @@ private:
     gpPlane       mFilledPlane;
     gpTriangle    mTriangle;
     gpTriangle    mFilledTriangle;
+    gpGrid        mGrid;
+    gpGrid        mFilledGrid;
 };
 
 #endif // GLMAIN_H

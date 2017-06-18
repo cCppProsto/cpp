@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     ../../../tools_src/graphical_library/gpclosedlines.cpp \
     ../../../tools_src/graphical_library/gpcircle.cpp \
     ../../../tools_src/graphical_library/gpplane.cpp \
-    ../../../tools_src/graphical_library/gptriangle.cpp
+    ../../../tools_src/graphical_library/gptriangle.cpp \
+    ../../../tools_src/graphical_library/gpgrid.cpp
 
 HEADERS += \
     ../../../external_libs/glfw/include/glfw3.h \
@@ -42,7 +43,8 @@ HEADERS += \
     ../../../tools_src/graphical_library/gpclosedlines.hpp \
     ../../../tools_src/graphical_library/gpcircle.hpp \
     ../../../tools_src/graphical_library/gpplane.hpp \
-    ../../../tools_src/graphical_library/gptriangle.hpp
+    ../../../tools_src/graphical_library/gptriangle.hpp \
+    ../../../tools_src/graphical_library/gpgrid.hpp
 
 QT   += opengl
 LIBS += -lopengl32

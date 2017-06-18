@@ -27,7 +27,7 @@ void glMain::mouseKeyEvent(GLFWwindow *, int, int, int)
 void glMain::init()
 {
     //------------------- INIT POINT ---------
-    mPoint.set(point2D{50, 50});
+    mPoint.move(50, 50);
     mPoint.set_point_size(3);
     mPoint.set_color(Color(eColorType::Aqua));
 
@@ -63,7 +63,7 @@ void glMain::init()
     //------------------- CIRCLE -------------------------------------
     mCircle.set_point_size(1);
     mCircle.set_color(Color(eColorType::Maroon));
-    mCircle.set(point2D{600, 100});
+    mCircle.move(600, 100);
     mCircle.set_radius(50);
     mCircle.set_segments(15);
 
@@ -71,13 +71,13 @@ void glMain::init()
     mFilledCircle.set_point_size(2);
     mFilledCircle.set_color(Color(eColorType::Olive));
     mFilledCircle.set_fill_color(Color(eColorType::Navy));
-    mFilledCircle.set(point2D{800, 100});
+    mFilledCircle.move(800, 100);
     mFilledCircle.set_radius(40);
     mFilledCircle.set_segments(22);
 
     //------------------- PLANE -------------------------------------
     mPlane.set_color(Color(eColorType::Purple));
-    mPlane.set(point2D{50, 400});
+    mPlane.move(50, 400);
     mPlane.set_width(100);
     mPlane.set_height(60);
 
@@ -85,7 +85,7 @@ void glMain::init()
     mFilledPlane.set_point_size(3);
     mFilledPlane.set_color(Color(eColorType::Red));
     mFilledPlane.set_fill_color(Color(eColorType::Silver));
-    mFilledPlane.set(point2D{250, 400});
+    mFilledPlane.move(250, 400);
     mFilledPlane.set_width(100);
     mFilledPlane.set_height(60);
 
@@ -97,6 +97,15 @@ void glMain::init()
     mFilledTriangle.set_color(Color(eColorType::Yellow));
     mFilledTriangle.set_fill_color(Color(eColorType::White));
     mFilledTriangle.set(point2D{650, 400}, point2D{650, 450}, point2D{600, 450});
+
+    //------------------- GRID -------------------------------------
+    mGrid.set(point2D{50, 500}, 50, 30, 2, 1);
+    mGrid.set_color(Color(eColorType::Aqua));
+
+    //------------------- FILLED GRID ------------------------------
+    mFilledGrid.set(point2D{400, 500}, 20, 20, 6, 6);
+    mFilledGrid.set_color(Color(eColorType::Blue));
+    mFilledGrid.set_fill_color(Color(eColorType::Green));
 }
 //------------------------------------------------------------------------------
 void glMain::processing()
@@ -137,4 +146,10 @@ void glMain::draw()
 
     drawText(600, 395, "Filled Triangle");
     mFilledTriangle.draw();
+
+    drawText(50, 495, "Grid");
+    mGrid.draw();
+
+    drawText(400, 495, "Filled Grid");
+    mFilledGrid.draw();
 }
