@@ -9,4 +9,5 @@ SUBDIRS += \
     gps_tool \
     stl_vector \
     glfw_engine \
-    gPrimitive
+    gPrimitive \
+    override
