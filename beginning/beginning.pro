@@ -10,4 +10,5 @@ SUBDIRS += \
     stl_vector \
     glfw_engine \
     gPrimitive \
-    override
+    override \
+    bender_world
