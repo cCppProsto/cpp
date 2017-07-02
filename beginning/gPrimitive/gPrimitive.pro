@@ -47,10 +47,14 @@ HEADERS += \
     ../../../tools_src/graphical_library/gpgrid.hpp
 
 QT   += opengl
-LIBS += -lopengl32
+
+LIBS += -lGL -lGLU -lglut
+LIBS += -lglfw
+LIBS += -lX11 -lXrandr -lXinerama -lXxf86vm -lXcursor -lpthread -ldl
 
 win32: LIBS += -L$$PWD/../../../external_libs/glfw/lib/ -lglfw3
 win32: LIBS += -lgdi32 -L$$PWD/../../../external_libs/glut/lib/ -lglut32
+win32: LIBS += -lopengl32
 
 DISTFILES += \
     notes.txt

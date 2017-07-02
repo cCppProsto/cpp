@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "glfw_engine2D.hpp"
+#include <GL/glut.h>
 
 using namespace cpp_prosto::graphical;
 
@@ -28,8 +29,10 @@ public:
 };
 
 
-int main()
+int main(int argcp, char **argv)
 {
+    glutInit(&argcp, argv);
+
     test a;
     a.run();
     return 0;

@@ -27,11 +27,13 @@ void glMain::init()
 {
     mWorld.setScreenHeight(height());
 
+    mWorld.loadMap("map/bender_1.txt");
+
     //mWorld.loadMap("D:\\tmp\\codingame\\bender_1.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_2.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_3.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_4.txt");
-      mWorld.loadMap("D:\\tmp\\codingame\\bender_5.txt");
+//    mWorld.loadMap("D:\\tmp\\codingame\\bender_5.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_6.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_7.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_8.txt");

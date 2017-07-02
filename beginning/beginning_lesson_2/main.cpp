@@ -5,7 +5,7 @@
 using namespace std;
 
 #define C_PI 3.141231234
-const double CPP_PI = 3.141231234;
+constexpr double CPP_PI = 3.141231234;
 constexpr double CPP_PI_2 = CPP_PI / 2.;
 
 

@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "glmain.h"
+#include <glut.h>
 
 /*
 struct Document
@@ -163,8 +164,10 @@ tbvf[0x00FF]
 pobj->a()
 */
 
-int main()
+int main(int argcp, char **argv)
 {
+    glutInit(&argcp, argv);
+
     glMain glw;
     glw.run();
     return 0;

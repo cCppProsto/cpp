@@ -32,6 +32,9 @@ void benderMap::load(std::string aPath, int aScreenHeight)
 {
     std::ifstream file{aPath};
 
+    if(!file.is_open())
+      return;
+
     file >> mLines;
     file >> mRows;
 
