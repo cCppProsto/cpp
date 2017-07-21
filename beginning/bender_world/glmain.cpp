@@ -27,7 +27,9 @@ void glMain::init()
 {
     mWorld.setScreenHeight(height());
 
-    mWorld.loadMap("map/bender_1.txt");
+    //mWorld.loadMap("map/bender_1.txt");
+    //mWorld.loadMap("map/bender_9.txt");
+    mWorld.loadMap("map/bender_11.txt");
 
     //mWorld.loadMap("D:\\tmp\\codingame\\bender_1.txt");
 //    mWorld.loadMap("D:\\tmp\\codingame\\bender_2.txt");
@@ -45,7 +47,7 @@ void glMain::init()
 void glMain::processing()
 {
     static int isMove = 0;
-    if(++isMove == 5)
+    if(++isMove == 10)
     {
         mWorld.step();
         isMove = 0;

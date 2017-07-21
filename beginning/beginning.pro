@@ -11,4 +11,5 @@ SUBDIRS += \
     glfw_engine \
     gPrimitive \
     override \
-    bender_world
+    bender_world \
+    user_literals
