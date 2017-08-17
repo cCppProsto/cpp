@@ -34,11 +34,11 @@ void glMain::mouseKeyEvent(GLFWwindow *, int, int, int)
 //------------------------------------------------------------------------------
 void glMain::init()
 {
-  std::string path = "/home/ioleshko/tmp/way_1.txt";
+  //std::string path = "/home/ioleshko/tmp/way_1.txt";
   //std::string path = "/home/ioleshko/tmp/way_2.txt";
   //std::string path = "/home/ioleshko/tmp/way_3.txt";
   //std::string path = "/home/ioleshko/tmp/way_4.txt";
-  //std::string path = "/home/ioleshko/tmp/way_5.txt";
+  std::string path = "/home/ioleshko/tmp/way_5.txt";
 
   std::ifstream file{path};
 
@@ -286,7 +286,7 @@ void glMain::processing()
     }
   }
 
-  std::this_thread::sleep_for(1s);
+  std::this_thread::sleep_for(2s);
   glfwTerminate();
 }
 //------------------------------------------------------------------------------

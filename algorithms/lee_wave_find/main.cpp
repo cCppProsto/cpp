@@ -10,6 +10,15 @@ using namespace std;
 int main(int argcp, char **argv)
 {
   /*
+    *******
+    *32101*
+    *43**2*
+    *5**43*
+    *F7654*
+    *******
+  */
+
+  /*
     111111
     1   S1
     1  1 1
