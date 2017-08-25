@@ -13,7 +13,8 @@ SUBDIRS += \
     override \
     bender_world \
     user_literals \
-    menu
+    menu \
+    new_delete
 
 HEADERS +=
 
