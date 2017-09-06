@@ -14,7 +14,8 @@ SUBDIRS += \
     bender_world \
     user_literals \
     menu \
-    new_delete
+    new_delete \
+    smart_pointers
 
 HEADERS +=
 
