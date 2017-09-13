@@ -162,7 +162,6 @@ void unique_ptr_example_8()
   *bp = 0;
 }
 
-
 void unique_ptr_examples()
 {
   //unique_ptr_example_1();
@@ -175,21 +174,142 @@ void unique_ptr_examples()
   unique_ptr_example_8();
 }
 
-int main()
+//---------------------- SHARED PTR --------------------------------------------
+void shared_ptr_example_1()
 {
-  unique_ptr_examples();
-  return 0;
+  std::shared_ptr<int> sp_a(new int(1));
+  {
+    std::shared_ptr<int> sp_b;
+    sp_b = sp_a;
+  }
+}
+//------------------------------------------------------------------------------
+void shared_ptr_example_2()
+{
+  struct cls
+  {
+    cls()
+    {
+      cout << "cls()" << endl;
+    }
+    ~cls()
+    {
+      cout << "~cls()" << endl;
+    }
+  };
+
+  std::shared_ptr<cls> a(new cls);
+  std::shared_ptr<cls> b(new cls);
+  std::shared_ptr<cls> c(b);
+
+  std::cout << a.get() << ":" << a.use_count() << std::endl;
+  std::cout << b.get() << ":" << b.use_count() << std::endl;
+  std::cout << c.get() << ":" << c.use_count() << std::endl;
+
+  a = b;
+  b = c;
+
+  std::cout << a.get() << ":" << a.use_count() << std::endl;
+  std::cout << b.get() << ":" << b.use_count() << std::endl;
+  std::cout << c.get() << ":" << c.use_count() << std::endl;
+}
+//------------------------------------------------------------------------------
+void shared_ptr_add_3_a(std::shared_ptr<int> aPtr)
+{
+  std::cout << "shared_ptr_add_3_a: owners = " << aPtr.use_count() << std::endl;
+}
+//------------------------------------------------------------------------------
+void shared_ptr_add_3_b(const std::shared_ptr<int> &aPtr)
+{
+  std::cout << "shared_ptr_add_3_b: owners = " << aPtr.use_count() << std::endl;
+}
+//------------------------------------------------------------------------------
+void shared_ptr_example_3()
+{
+  auto sp = std::make_shared<int>(1);
+  shared_ptr_add_3_a(sp);
+  shared_ptr_add_3_b(sp);
+
+  std::cout << "shared_ptr_example_3: owners = " << sp.use_count() << std::endl;
+}
+//------------------------------------------------------------------------------
+void shared_ptr_example_4()
+{
+  {
+    // not crash when will an attempt to release of memory
+    // BUT it is problem, if allocate for array [], release for array []
+    auto spa = std::shared_ptr<int>(new int [3]);
+  }
+
+  {
+    auto spa = std::shared_ptr<int>(new int [3], default_delete<int[]>());
+
+    spa.get()[0] = 1;
+    spa.get()[1] = 2;
+    spa.get()[2] = 3;
+
+    std::cout << spa.get()[0]
+              << ","
+              << spa.get()[1]
+              << ","
+              << spa.get()[2]
+              << std::endl;
+  }
+
+  {
+    auto spa = std::shared_ptr<int>(new int [3], []( int *p ) { delete[] p; });
+  }
+
+  {
+    struct IntArrayDeleter
+    {
+        void operator()(int *aP)
+        {
+          std::cout <<
+                    "deleted is OK"
+                    << std::endl;
+          delete [] aP;
+        }
+    };
+
+    auto spa = std::shared_ptr<int>(new int [3], IntArrayDeleter());
+  }
+}
+//------------------------------------------------------------------------------
+void shared_ptr_example_5()
+{
+  struct cls
+  {
+    cls()  { cout << "cls()" << endl;}
+    ~cls() { cout << "~cls()" << endl;}
+
+    static std::shared_ptr<cls> make_shared_array(unsigned aSize)
+    {
+      return std::shared_ptr<cls>(new cls[aSize], default_delete<cls[]>());
+    }
+  };
+
+  {
+    auto spa = cls::make_shared_array(3);
+  }
+  {
+    auto spa = std::shared_ptr<cls>(new cls [5]); // crash when will an attempt to release of memory
+  }
+}
+//------------------------------------------------------------------------------
+void shared_ptr_examples()
+{
+  //shared_ptr_example_1();
+  //shared_ptr_example_2();
+  //shared_ptr_example_3();
+  //shared_ptr_example_4();
+  shared_ptr_example_5();
 }
 
-
-
-
-
-
-
-
-
-
-
-
+int main()
+{
+  //unique_ptr_examples();
+  shared_ptr_examples();
+  return 0;
+}
 
