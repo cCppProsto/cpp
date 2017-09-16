@@ -305,11 +305,205 @@ void shared_ptr_examples()
   //shared_ptr_example_4();
   shared_ptr_example_5();
 }
+//---------------------- WEAK PTR ----------------------------------------------
+void weak_ptr_example_1()
+{
+  struct sUnit
+  {
+    sUnit(string name) { cout << "sUnit()" << endl;  }
+    ~sUnit()           { cout << "~sUnit()" << endl; }
+    shared_ptr<sUnit> target;
+  };
+
+  {
+    shared_ptr<sUnit> archer  = std::make_shared<sUnit>("archer");  // a - 1 : t - 0
+    shared_ptr<sUnit> pikeman = std::make_shared<sUnit>("pikeman"); // p - 1 : t - 0
+
+    archer->target = pikeman; // a - 1 : t - 2
+                              // p - 2 : t - 0
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pikeman.use_count() << " : " << pikeman->target.use_count() << endl << endl;
+  }
+  cout << endl << endl;
+}
+//------------------------------------------------------------------------------
+void weak_ptr_example_2()
+{
+  struct sUnit
+  {
+    sUnit(string name) { cout << "sUnit()" << endl;  }
+    ~sUnit()           { cout << "~sUnit()" << endl; }
+    shared_ptr<sUnit> target;
+  };
+
+  {
+    shared_ptr<sUnit> archer   = std::make_shared<sUnit>("archer");   // a - 1 : t - 0
+    shared_ptr<sUnit> pickeman = std::make_shared<sUnit>("pikeman");  // p - 1 : t - 0
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pickeman.use_count() << " : " << pickeman->target.use_count() << endl << endl;
+
+    archer->target = pickeman;  // a - 1 : t - 2
+                                // p - 2 : t - 0
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pickeman.use_count() << " : " << pickeman->target.use_count() << endl << endl;
+
+    pickeman->target = archer;  // p - 2 : t - 2
+                                // a - 2 : t - 2
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pickeman.use_count() << " : " << pickeman->target.use_count() << endl << endl;
+  }
+  cout << endl << endl;
+}
+//------------------------------------------------------------------------------
+void weak_ptr_example_3()
+{
+  struct sUnit
+  {
+    sUnit(string name) { cout << "sUnit()" << endl;  }
+    ~sUnit()           { cout << "~sUnit()" << endl; }
+    weak_ptr<sUnit> target;
+  };
+
+  {
+    shared_ptr<sUnit> archer   = std::make_shared<sUnit>("archer");   // a - 1 : t - 0
+    shared_ptr<sUnit> pickeman = std::make_shared<sUnit>("pikeman");  // p - 1 : t - 0
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pickeman.use_count() << " : " << pickeman->target.use_count() << endl << endl;
+
+    archer->target = pickeman;  // a - 1 : t - 2
+                                // p - 2 : t - 0
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pickeman.use_count() << " : " << pickeman->target.use_count() << endl << endl;
+
+    pickeman->target = archer;  // p - 2 : t - 2
+                                // a - 2 : t - 2
+
+    cout << archer.use_count() << " : " << archer->target.use_count() << endl;
+    cout << pickeman.use_count() << " : " << pickeman->target.use_count() << endl << endl;
+  }
+  cout << endl << endl;
+}
+//------------------------------------------------------------------------------
+void weak_ptr_example_4()
+{
+  struct sUnit
+  {
+    sUnit(string name) { cout << "sUnit()" << endl;  }
+    ~sUnit()           { cout << "~sUnit()" << endl; }
+
+    weak_ptr<sUnit> target;
+  };
+
+  {
+    shared_ptr<sUnit> archer   = std::make_shared<sUnit>("archer");   // a - 1 : t - 0
+
+    // ...
+
+    shared_ptr<sUnit> &some = archer;
+
+    // ...
+
+    archer->target = some;
+  }
+  cout << endl << endl;
+}
+//------------------------------------------------------------------------------
+void weak_ptr_example_5()
+{
+  struct sUnit
+  {
+    sUnit(string name) { cout << "sUnit()" << endl;  }
+    ~sUnit()           { cout << "~sUnit()" << endl; }
+
+    void attack()
+    {
+      // ...
+
+      if((target.lock())->mHealth < 0)
+        target.reset();
+    }
+
+    int             mHealth{100};
+    weak_ptr<sUnit> target;
+  };
+
+  {
+    shared_ptr<sUnit> archer   = std::make_shared<sUnit>("archer");   // a - 1 : t - 0
+    shared_ptr<sUnit> pickeman = std::make_shared<sUnit>("pikeman");  // p - 1 : t - 0
+
+    archer->target = pickeman;
+
+    // ...
+    pickeman.reset();
+
+    // ...
+
+    archer->attack();
+  }
+
+  cout << endl << endl;
+}
+//------------------------------------------------------------------------------
+void weak_ptr_example_6()
+{
+  struct sUnit
+  {
+    sUnit(string name) { cout << "sUnit()" << endl;  }
+    ~sUnit()           { cout << "~sUnit()" << endl; }
+
+    void attack()
+    {
+      // ...
+
+      if(!target.expired())
+      {
+        if((target.lock())->mHealth < 0)
+          target.reset();
+      }
+    }
+
+    int             mHealth{100};
+    weak_ptr<sUnit> target;
+  };
+
+  {
+    shared_ptr<sUnit> archer   = std::make_shared<sUnit>("archer");   // a - 1 : t - 0
+    shared_ptr<sUnit> pickeman = std::make_shared<sUnit>("pikeman");  // p - 1 : t - 0
+
+    archer->target = pickeman;
+
+    // ...
+    pickeman.reset();
+
+    // ...
+
+    archer->attack();
+  }
+
+  cout << endl << endl;
+}
+//------------------------------------------------------------------------------
+void weak_ptr_examples()
+{
+  //weak_ptr_example_1();
+  //weak_ptr_example_2();
+  //weak_ptr_example_3();
+  //weak_ptr_example_4();
+  //weak_ptr_example_5();
+  weak_ptr_example_6();
+}
 
 int main()
 {
   //unique_ptr_examples();
-  shared_ptr_examples();
+  //shared_ptr_examples();
+  weak_ptr_examples();
   return 0;
 }
 

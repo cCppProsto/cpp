@@ -37,8 +37,8 @@ void glMain::init()
   //std::string path = "/home/ioleshko/tmp/way_1.txt";
   //std::string path = "/home/ioleshko/tmp/way_2.txt";
   //std::string path = "/home/ioleshko/tmp/way_3.txt";
-  //std::string path = "/home/ioleshko/tmp/way_4.txt";
-  std::string path = "/home/ioleshko/tmp/way_5.txt";
+  std::string path = "maps/way_4.txt";
+  //std::string path = "maps/way_5.txt";
 
   std::ifstream file{path};
 
