@@ -17,7 +17,6 @@ SOURCES += main.cpp \
     ../../../tools_src/fpstool.cpp \
     menuapp.cpp \
     ../../../tools_src/mainmenu.cpp \
-    vector.cpp \
     circle.cpp \
     ../../../tools_src/graphical_library/gpcircle.cpp \
     ../../../tools_src/graphical_library/gprimitive.cpp \
@@ -29,7 +28,6 @@ HEADERS += \
     ../../../tools_src/fpstool.hpp \
     menuapp.h \
     ../../../tools_src/mainmenu.hpp \
-    vector.h \
     circle.h \
     ../../../tools_src/graphical_library/gpcircle.hpp \
     ../../../tools_src/graphical_library/gprimitive.hpp \
