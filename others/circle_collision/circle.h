@@ -30,13 +30,20 @@ struct circle final
   const float &speed()const;
 
 private:
+  void _screen_borders_proc();
+  void _move_draw_objects();
+  void _collision_proc(circle &);
+
+private:
   float mX{0.0f};
   float mY{0.0f};
   float mSpeed{1.0f};
 
+  vector2DNorm mDirVector;
+  vector2DNorm mSpeedVector;
+
   gpCircle mCircle;
   gpLine   mLineVDir;
-  vector2DNorm mVDir;
 };
 
 #endif // CIRCLE_H

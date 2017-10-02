@@ -127,34 +127,27 @@ void menuApp::draw_menu()
 //------------------------------------------------------------------------------
 void menuApp::app_init()
 {
-/*
-  int vsize = 20;
+//  int vsize = 100;
 
-  mvCircles.reserve(vsize);
+//  mvCircles.reserve(vsize);
 
-  for(int i = 0; i < vsize; ++i)
-  {
-    float rx = 51 + rand() % (1024 - 102);
-    float ry = 51 + rand() % (768 - 102);
-    float r  = 5 + rand() % (50 - 5);
+//  for(int i = 0; i < vsize; ++i)
+//  {
+//    float rx = 51 + rand() % (1024 - 102);
+//    float ry = 51 + rand() % (768 - 102);
+//    float r  = 5 + rand() % (40 - 5);
 
-    mvCircles.push_back(std::make_unique<circle>(rx, ry, r));
+//    mvCircles.push_back(std::make_unique<circle>(rx, ry, r));
 
-    rx = 52 + rand() % (1024 - 52);
-    ry = 52 + rand() % (768 - 52);
-    r = 2 + rand() % 8;
-    mvCircles[i].get()->add_point_to_move(rx, ry);
-    mvCircles[i].get()->set_speed(r);
-  }
-
-*/
-
+//    rx = 52 + rand() % (1024 - 52);
+//    ry = 52 + rand() % (768 - 52);
+//    r = 2 + rand() % 8;
+//    mvCircles[i].get()->add_point_to_move(rx, ry);
+//    mvCircles[i].get()->set_speed(r);
+//  }
 
   int vsize = 2;
-
   mvCircles.reserve(vsize);
-
-
   float rx = 200;
   float ry = 200;
   float r  = 100;
@@ -171,10 +164,9 @@ void menuApp::app_init()
   mvCircles.push_back(std::make_unique<circle>(rx, ry, r));
   rx = 52 + rand() % (1024 - 52);
   ry = 52 + rand() % (768 - 52);
-  r = 9;
+  r = 5;
   mvCircles[1].get()->add_point_to_move(rx, ry);
   mvCircles[1].get()->set_speed(r);
-
 }
 //------------------------------------------------------------------------------
 void menuApp::v_application()
@@ -201,8 +193,12 @@ void menuApp::app_processing()
       for(auto j = 0u; j < end; ++j)
       {
         if(i != j)
+        {
+//          c1.check_collision_and_fill(*(mvCircles[j].get()));
+
           if(c1.check_collision_and_fill(*(mvCircles[j].get())))
             mIsPause = true;
+        }
       }
     }
   }

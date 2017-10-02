@@ -27,28 +27,44 @@ circle::circle(float aX, float aY, float radius)
   mCircle.set_fill_color(Color(eColorType::Red));
   mCircle.disableFill();
 
-
   mLineVDir.set(point2D{0,0}, point2D{0,0});
   mLineVDir.set_color(Color(eColorType::Red));
 }
 //------------------------------------------------------------------------------
 void circle::move()
 {
-  const int &centerX = mCircle.center().x;
-  const int &centerY = mCircle.center().y;
+  _screen_borders_proc();
+
+  mX += mSpeedVector.x();
+  mY += mSpeedVector.y();
+
+  _move_draw_objects();
+}
+//------------------------------------------------------------------------------
+void circle::_screen_borders_proc()
+{
   const int &radius  = mCircle.radius();
 
-  float new_x = mX + mVDir.x();
-  float new_y = mY + mVDir.y();
+  float new_x = mX + mSpeedVector.x();
+  float new_y = mY + mSpeedVector.y();
 
   if((new_x - radius <= 0) || (new_x + radius >= 1024))
-    mVDir.revert_x();
+  {
+    mSpeedVector.revert_x();
+    mDirVector.revert_x();
+  }
 
   if((new_y - radius <= 0) || (new_y + radius >= 768))
-    mVDir.revert_y();
-
-  mX += mVDir.x();
-  mY += mVDir.y();
+  {
+    mSpeedVector.revert_y();
+    mDirVector.revert_y();
+  }
+}
+//------------------------------------------------------------------------------
+void circle::_move_draw_objects()
+{
+  const int &centerX = mCircle.center().x;
+  const int &centerY = mCircle.center().y;
 
   int tx = mX - centerX;
   int ty = mY - centerY;
@@ -60,8 +76,8 @@ void circle::draw()
 {
   mCircle.draw();
 
-  int x = mX + (mVDir.x()/mSpeed) * radius();
-  int y = mY + (mVDir.y()/mSpeed) * radius();
+  int x = mX + (mDirVector.x()) * radius();
+  int y = mY + (mDirVector.y()) * radius();
   mLineVDir.set_point(point2D{(int)mX, (int)mY}, 0);
   mLineVDir.set_point(point2D{x, y}, 1);
 
@@ -70,10 +86,11 @@ void circle::draw()
 //------------------------------------------------------------------------------
 void circle::add_point_to_move(float aX, float aY)
 {
-  mVDir.set_p1_p2(mX, mY, aX, aY);
+  mDirVector.set_p1_p2(mX, mY, aX, aY);
+  mSpeedVector = mDirVector;
 
-  int x = mX + mVDir.x() * mCircle.radius();
-  int y = mY + mVDir.y() * mCircle.radius();
+  int x = mX + mDirVector.x() * mCircle.radius();
+  int y = mY + mDirVector.y() * mCircle.radius();
 
   mLineVDir.set_point(point2D{(int)mX, (int)mY}, 0);
   mLineVDir.set_point(point2D{x, y}, 1);
@@ -93,32 +110,43 @@ bool circle::check_collision_and_fill(circle &aCircle)
   dist = dist - r1 - r2;
   if(dist <= 0)
   {
-    mCircle.enableFill();
-
-    vector2DNorm v1;
-    vector2DNorm v2;
-
-    v1.set_p1_p2(mCircle.center().x, mCircle.center().y,
-                 aCircle.mCircle.center().x, aCircle.mCircle.center().y);
-
-    v2 = v1 * -1.f;
-
-    mVDir         += v2;
-    aCircle.mVDir += v1;
-    std::swap(mSpeed, aCircle.mSpeed);
-    mVDir *= mSpeed;
-    aCircle.mVDir *= aCircle.mSpeed;
+    _collision_proc(aCircle);
     return true;
   }
   return false;
+}
+//------------------------------------------------------------------------------
+void circle::_collision_proc(circle &aCircle)
+{
+  mCircle.enableFill();
+
+  vector2DNorm v1;
+  vector2DNorm v2;
+
+  const int &this_x  = mCircle.center().x;
+  const int &this_y  = mCircle.center().y;
+  const int &other_x = aCircle.mCircle.center().x;
+  const int &other_y = aCircle.mCircle.center().y;
+
+  v1.set_p1_p2(this_x, this_y, other_x, other_y);
+
+  v2 = v1 * -1.f;
+
+  mDirVector         += v2;
+  aCircle.mDirVector += v1;
+
+  std::swap(mSpeed, aCircle.mSpeed);
+
+  mSpeedVector         = mDirVector * mSpeed;
+  aCircle.mSpeedVector = aCircle.mDirVector * aCircle.mSpeed;
 }
 //------------------------------------------------------------------------------
 void circle::set_speed(float aSpeed)
 {
   if(aSpeed >= 0.0f)
   {
-    mSpeed = aSpeed;
-    mVDir *= mSpeed;
+    mSpeed        = aSpeed;
+    mSpeedVector *= mSpeed;
   }
 }
 //------------------------------------------------------------------------------
