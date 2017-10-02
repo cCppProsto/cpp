@@ -3,9 +3,11 @@
 
 #include <memory>
 #include "gpcircle.hpp"
+#include "gpline.hpp"
+#include "vector2D.h"
 
 using namespace cpp_prosto::graphical;
-
+using namespace cpp_prosto::math;
 struct circle final
 {
   circle(float aX, float aY, float radius);
@@ -17,7 +19,7 @@ struct circle final
   void add_point_to_move(float aX, float aY);
 
   void clear_fill();
-  void check_collision_and_fill(circle &);
+  bool check_collision_and_fill(circle &);
 
   void set_speed(float);
   void speed_change(float);
@@ -31,10 +33,10 @@ private:
   float mX{0.0f};
   float mY{0.0f};
   float mSpeed{1.0f};
-  float mDx{0.0f};
-  float mDy{0.0f};
 
   gpCircle mCircle;
+  gpLine   mLineVDir;
+  vector2DNorm mVDir;
 };
 
 #endif // CIRCLE_H

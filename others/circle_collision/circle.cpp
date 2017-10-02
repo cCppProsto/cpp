@@ -26,6 +26,10 @@ circle::circle(float aX, float aY, float radius)
 
   mCircle.set_fill_color(Color(eColorType::Red));
   mCircle.disableFill();
+
+
+  mLineVDir.set(point2D{0,0}, point2D{0,0});
+  mLineVDir.set_color(Color(eColorType::Red));
 }
 //------------------------------------------------------------------------------
 void circle::move()
@@ -34,41 +38,45 @@ void circle::move()
   const int &centerY = mCircle.center().y;
   const int &radius  = mCircle.radius();
 
-  float tmpx = mDx * mSpeed;
-  float tmpy = mDy * mSpeed;
+  float new_x = mX + mVDir.x();
+  float new_y = mY + mVDir.y();
 
-  float new_x = mX + tmpx;
-  float new_y = mY + tmpy;
+  if((new_x - radius <= 0) || (new_x + radius >= 1024))
+    mVDir.revert_x();
 
-  if(new_x - radius <= 0)
-    mDx *= -1.0f;
-  else if(new_x + radius >= 1024)
-    mDx *= -1.0f;
+  if((new_y - radius <= 0) || (new_y + radius >= 768))
+    mVDir.revert_y();
 
-  if(new_y - radius <= 0)
-    mDy *= -1.0f;
-  else if(new_y + radius >= 768)
-    mDy *= -1.0f;
+  mX += mVDir.x();
+  mY += mVDir.y();
 
-  mX += tmpx;
-  mY += tmpy;
-
-  mCircle.move(mX - centerX, mY - centerY);
+  int tx = mX - centerX;
+  int ty = mY - centerY;
+  mCircle.move(tx, ty);
+  mLineVDir.move(tx, ty);
 }
 //------------------------------------------------------------------------------
 void circle::draw()
 {
   mCircle.draw();
+
+  int x = mX + (mVDir.x()/mSpeed) * radius();
+  int y = mY + (mVDir.y()/mSpeed) * radius();
+  mLineVDir.set_point(point2D{(int)mX, (int)mY}, 0);
+  mLineVDir.set_point(point2D{x, y}, 1);
+
+  mLineVDir.draw();
 }
 //------------------------------------------------------------------------------
 void circle::add_point_to_move(float aX, float aY)
 {
-  float t1 = aX - mX;
-  float t2 = aY - mY;
-  float l = sqrt(t1*t1 + t2*t2);
+  mVDir.set_p1_p2(mX, mY, aX, aY);
 
-  mDx = t1/l;
-  mDy = t2/l;
+  int x = mX + mVDir.x() * mCircle.radius();
+  int y = mY + mVDir.y() * mCircle.radius();
+
+  mLineVDir.set_point(point2D{(int)mX, (int)mY}, 0);
+  mLineVDir.set_point(point2D{x, y}, 1);
 }
 //------------------------------------------------------------------------------
 void circle::clear_fill()
@@ -76,7 +84,7 @@ void circle::clear_fill()
   mCircle.disableFill();
 }
 //------------------------------------------------------------------------------
-void circle::check_collision_and_fill(circle &aCircle)
+bool circle::check_collision_and_fill(circle &aCircle)
 {
   int dist = fast_distance(*this, aCircle);
   int r1 = mCircle.radius();
@@ -84,13 +92,34 @@ void circle::check_collision_and_fill(circle &aCircle)
 
   dist = dist - r1 - r2;
   if(dist <= 0)
+  {
     mCircle.enableFill();
+
+    vector2DNorm v1;
+    vector2DNorm v2;
+
+    v1.set_p1_p2(mCircle.center().x, mCircle.center().y,
+                 aCircle.mCircle.center().x, aCircle.mCircle.center().y);
+
+    v2 = v1 * -1.f;
+
+    mVDir         += v2;
+    aCircle.mVDir += v1;
+    std::swap(mSpeed, aCircle.mSpeed);
+    mVDir *= mSpeed;
+    aCircle.mVDir *= aCircle.mSpeed;
+    return true;
+  }
+  return false;
 }
 //------------------------------------------------------------------------------
 void circle::set_speed(float aSpeed)
 {
   if(aSpeed >= 0.0f)
+  {
     mSpeed = aSpeed;
+    mVDir *= mSpeed;
+  }
 }
 //------------------------------------------------------------------------------
 void circle::speed_change(float aChangeValue)

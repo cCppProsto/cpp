@@ -44,6 +44,8 @@ private:
   void app_draw();
 
 private:
+  bool mIsPause{false};
+
   eMenuState  mMenuState;
   Menu        mMenu;
 

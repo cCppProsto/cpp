@@ -127,7 +127,8 @@ void menuApp::draw_menu()
 //------------------------------------------------------------------------------
 void menuApp::app_init()
 {
-  int vsize = 50;
+/*
+  int vsize = 20;
 
   mvCircles.reserve(vsize);
 
@@ -145,6 +146,35 @@ void menuApp::app_init()
     mvCircles[i].get()->add_point_to_move(rx, ry);
     mvCircles[i].get()->set_speed(r);
   }
+
+*/
+
+
+  int vsize = 2;
+
+  mvCircles.reserve(vsize);
+
+
+  float rx = 200;
+  float ry = 200;
+  float r  = 100;
+  mvCircles.push_back(std::make_unique<circle>(rx, ry, r));
+  rx = 52 + rand() % (1024 - 52);
+  ry = 52 + rand() % (768 - 52);
+  r = 4;
+  mvCircles[0].get()->add_point_to_move(rx, ry);
+  mvCircles[0].get()->set_speed(r);
+
+  rx = 400;
+  ry = 400;
+  r  = 100;
+  mvCircles.push_back(std::make_unique<circle>(rx, ry, r));
+  rx = 52 + rand() % (1024 - 52);
+  ry = 52 + rand() % (768 - 52);
+  r = 9;
+  mvCircles[1].get()->add_point_to_move(rx, ry);
+  mvCircles[1].get()->set_speed(r);
+
 }
 //------------------------------------------------------------------------------
 void menuApp::v_application()
@@ -158,19 +188,22 @@ void menuApp::app_processing()
   unsigned end = mvCircles.size();
 
   for(auto i = 0u; i < end; ++i)
-  {
-    mvCircles[i].get()->move();
     mvCircles[i].get()->clear_fill();
-  }
 
-  for(auto i = 0u; i < end; ++i)
+  if(!mIsPause)
   {
-    // check collision
-    circle &c1 = *(mvCircles[i].get());
-    for(auto j = 0u; j < end; ++j)
+    for(auto i = 0u; i < end; ++i)
     {
-      if(i != j)
-        c1.check_collision_and_fill(*(mvCircles[j].get()));
+      mvCircles[i].get()->move();
+
+      // check collision
+      circle &c1 = *(mvCircles[i].get());
+      for(auto j = 0u; j < end; ++j)
+      {
+        if(i != j)
+          if(c1.check_collision_and_fill(*(mvCircles[j].get())))
+            mIsPause = true;
+      }
     }
   }
 }
@@ -237,6 +270,14 @@ void menuApp::app_key_processing(int aKey, int aAction)
       {
         mState = eAppState::MENU;
         mMenu.goToTop();
+        break;
+      }
+      case GLFW_KEY_SPACE:
+      {
+        if(mIsPause)
+          mIsPause = false;
+        else
+          mIsPause = true;
         break;
       }
     }

@@ -10,6 +10,7 @@ INCLUDEPATH += ../../../tools_src/
 INCLUDEPATH += ../../../external_libs/glfw/include/
 INCLUDEPATH += ../../../external_libs/glut/include/
 INCLUDEPATH += ../../../tools_src/graphical_library/
+INCLUDEPATH += ../../../tools_src/math/
 
 SOURCES += main.cpp \
     ../../../tools_src/baseappinst.cpp \
@@ -20,7 +21,9 @@ SOURCES += main.cpp \
     circle.cpp \
     ../../../tools_src/graphical_library/gpcircle.cpp \
     ../../../tools_src/graphical_library/gprimitive.cpp \
-    ../../../tools_src/graphical_library/color.cpp
+    ../../../tools_src/graphical_library/color.cpp \
+    ../../../tools_src/math/vector2D.cpp \
+    ../../../tools_src/graphical_library/gpline.cpp
 
 HEADERS += \
     ../../../tools_src/baseappinst.hpp \
@@ -31,7 +34,9 @@ HEADERS += \
     circle.h \
     ../../../tools_src/graphical_library/gpcircle.hpp \
     ../../../tools_src/graphical_library/gprimitive.hpp \
-    ../../../tools_src/graphical_library/color.hpp
+    ../../../tools_src/graphical_library/color.hpp \
+    ../../../tools_src/math/vector2D.h \
+    ../../../tools_src/graphical_library/gpline.hpp
 
 QT   += opengl
 
