@@ -7,4 +7,5 @@ QMAKE_CXXFLAGS += -std=c++14
 
 SOURCES += main.cpp \
     factory_method.cpp \
-    abstract_factory.cpp
+    abstract_factory.cpp \
+    singleton.cpp
