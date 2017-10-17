@@ -187,7 +187,7 @@ void application::draw_menu()
 //------------------------------------------------------------------------------
 void application::app_init()
 {
-
+  mExample1.set_start(13);
 }
 //------------------------------------------------------------------------------
 void application::app_key_processing(int aKey, int aAction)
@@ -198,18 +198,6 @@ void application::app_key_processing(int aKey, int aAction)
   {
     switch(aKey)
     {
-      case GLFW_KEY_UP:
-      {
-        break;
-      }
-      case GLFW_KEY_DOWN:
-      {
-        break;
-      }
-      case GLFW_KEY_ENTER:
-      {
-        break;
-      }
       case GLFW_KEY_ESCAPE:
       {
         mState = eAppState::MENU;
@@ -246,6 +234,19 @@ void application::key_pressed_example_1(int aKey)
 {
   switch(aKey)
   {
+    case GLFW_KEY_UP:
+    {
+      mExample1.move_up();
+      break;
+    }
+    case GLFW_KEY_DOWN:
+    {
+      break;
+    }
+    case GLFW_KEY_ENTER:
+    {
+      break;
+    }
     case GLFW_KEY_0:
     {
       mExample1.block_invert(1);

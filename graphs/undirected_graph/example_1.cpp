@@ -72,7 +72,7 @@ void example_1::init()
 
   point p;
   circle node_info;
-  std::pair<unsigned, point> edge_info;
+  std::pair<unsigned, node_direction_info> edge_info;
 
   node_info.set_color(node_color);
   node_info.set_fill_color(normal_node_fill_color);
@@ -92,12 +92,14 @@ void example_1::init()
 
     // line 1 - 2
     edge_info.first  = 2;
-    edge_info.second = {x_s + width, y_s};
+    edge_info.second._point = {x_s + width, y_s};
+    edge_info.second.dir    = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     // line 1 - 5
     edge_info.first  = 5;
-    edge_info.second = {x_s , y_s + height};
+    edge_info.second._point = {x_s , y_s + height};
+    edge_info.second.dir    = eDirection::DOWN;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(1, _info));
@@ -114,12 +116,14 @@ void example_1::init()
 
     // line 2 - 1
     edge_info.first  = 1;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir    = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     // line 2 - 3
     edge_info.first  = 3;
-    edge_info.second = {x_s + width , y_s};
+    edge_info.second._point = {x_s + width , y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(2, _info));
@@ -137,7 +141,8 @@ void example_1::init()
 
     // line 3 - 2
     edge_info.first  = 2;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(3, _info));
@@ -156,7 +161,8 @@ void example_1::init()
 
     // line 4 - 8
     edge_info.first  = 8;
-    edge_info.second = {x_s, y_s + height};
+    edge_info.second._point = {x_s, y_s + height};
+    edge_info.second.dir = eDirection::DOWN;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(4, _info));
@@ -176,17 +182,20 @@ void example_1::init()
 
     // line 5 - 1
     edge_info.first  = 1;
-    edge_info.second = {x_s, y_s - height};
+    edge_info.second._point = {x_s, y_s - height};
+    edge_info.second.dir = eDirection::UP;
     _info.edges.push_back(edge_info);
 
     // line 5 - 6
     edge_info.first  = 6;
-    edge_info.second = {x_s + width, y_s};
+    edge_info.second._point = {x_s + width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     // line 5 - 9
     edge_info.first  = 9;
-    edge_info.second = {x_s , y_s + height};
+    edge_info.second._point = {x_s , y_s + height};
+    edge_info.second.dir = eDirection::DOWN;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(5, _info));
@@ -204,7 +213,8 @@ void example_1::init()
 
     // line 6 - 5
     edge_info.first  = 5;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(6, _info));
@@ -224,12 +234,14 @@ void example_1::init()
 
     // line 7 - 8
     edge_info.first  = 8;
-    edge_info.second = {x_s + width, y_s };
+    edge_info.second._point = {x_s + width, y_s };
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     // line 7 - 11
     edge_info.first  = 11;
-    edge_info.second = {x_s , y_s + height};
+    edge_info.second._point = {x_s , y_s + height};
+    edge_info.second.dir = eDirection::DOWN;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(7, _info));
@@ -247,12 +259,14 @@ void example_1::init()
 
     // line 8 - 4
     edge_info.first  = 4;
-    edge_info.second = {x_s, y_s - height};
+    edge_info.second._point = {x_s, y_s - height};
+    edge_info.second.dir = eDirection::UP;
     _info.edges.push_back(edge_info);
 
     // line 8 - 7
     edge_info.first  = 7;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(8, _info));
@@ -271,12 +285,14 @@ void example_1::init()
 
     // line 9 - 5
     edge_info.first  = 5;
-    edge_info.second = {x_s, y_s - height};
+    edge_info.second._point = {x_s, y_s - height};
+    edge_info.second.dir = eDirection::UP;
     _info.edges.push_back(edge_info);
 
     // line 9 - 13
     edge_info.first  = 13;
-    edge_info.second = {x_s , y_s + height};
+    edge_info.second._point = {x_s , y_s + height};
+    edge_info.second.dir = eDirection::DOWN;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(9, _info));
@@ -295,7 +311,8 @@ void example_1::init()
 
     // line 10 - 11
     edge_info.first  = 11;
-    edge_info.second = {x_s + width, y_s };
+    edge_info.second._point = {x_s + width, y_s };
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(10, _info));
@@ -314,17 +331,20 @@ void example_1::init()
 
     // line 11 - 7
     edge_info.first  = 7;
-    edge_info.second = {x_s, y_s - height};
+    edge_info.second._point = {x_s, y_s - height};
+    edge_info.second.dir = eDirection::UP;
     _info.edges.push_back(edge_info);
 
     // line 11 - 10
     edge_info.first  = 10;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     // line 11 - 12
     edge_info.first  = 12;
-    edge_info.second = {x_s + width, y_s};
+    edge_info.second._point = {x_s + width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(11, _info));
@@ -343,12 +363,14 @@ void example_1::init()
 
     // line 12 - 11
     edge_info.first  = 11;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     // line 12 - 16
     edge_info.first  = 16;
-    edge_info.second = {x_s , y_s + height};
+    edge_info.second._point = {x_s , y_s + height};
+    edge_info.second.dir = eDirection::DOWN;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(12, _info));
@@ -367,12 +389,14 @@ void example_1::init()
 
     // line 13 - 9
     edge_info.first  = 9;
-    edge_info.second = {x_s, y_s - height};
+    edge_info.second._point = {x_s, y_s - height};
+    edge_info.second.dir = eDirection::UP;
     _info.edges.push_back(edge_info);
 
     // line 13 - 14
     edge_info.first  = 14;
-    edge_info.second = {x_s + width, y_s};
+    edge_info.second._point = {x_s + width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(13, _info));
@@ -391,12 +415,14 @@ void example_1::init()
 
     // line 14 - 13
     edge_info.first  = 13;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     // line 14 - 15
     edge_info.first  = 15;
-    edge_info.second = {x_s + width, y_s};
+    edge_info.second._point = {x_s + width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(14, _info));
@@ -415,12 +441,14 @@ void example_1::init()
 
     // line 15 - 14
     edge_info.first  = 14;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     // line 15 - 16
     edge_info.first  = 16;
-    edge_info.second = {x_s + width, y_s};
+    edge_info.second._point = {x_s + width, y_s};
+    edge_info.second.dir = eDirection::RIGTH;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(15, _info));
@@ -438,25 +466,31 @@ void example_1::init()
 
     // line 16 - 15
     edge_info.first  = 15;
-    edge_info.second = {x_s - width, y_s};
+    edge_info.second._point = {x_s - width, y_s};
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     // line 16 - 12
     edge_info.first  = 12;
-    edge_info.second = {x_s, y_s - height};
+    edge_info.second._point = {x_s, y_s - height};
+    edge_info.second.dir = eDirection::UP;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(16, _info));
   }
 //------------------------------------------------------------------------------
-
-//  mGraph.block(2);
-//  mGraph.unblock(2);
 }
 //------------------------------------------------------------------------------
 void example_1::draw()
 {
-  static line tmp_line;
+  static line   tmp_line;
+  static circle tmp_circle;
+
+  tmp_circle.set_radius(25);
+  tmp_circle.set_segments(18);
+  tmp_circle.set_point_size(3);
+  tmp_circle.set_color(color(colorType::Green));
+  tmp_circle.set_fill_color(color(colorType::Fuchsia));
 
   tmp_line.set_color(normal_edge_color);
   tmp_line.set_point_size(5);
@@ -470,8 +504,8 @@ void example_1::draw()
 
     for(auto const &lpoint : node.second.edges)
     {
-      const auto &x_e = lpoint.second.x;
-      const auto &y_e = lpoint.second.y;
+      const auto &x_e = lpoint.second._point.x;
+      const auto &y_e = lpoint.second._point.y;
       tmp_line.set_point({x_e, y_e} , 1);
 
       if(mGraph.is_blocked(node.first) || mGraph.is_blocked(lpoint.first))
@@ -490,6 +524,15 @@ void example_1::draw()
       node.second.node.set_fill_color(normal_node_fill_color);
     node.second.node.draw();
   }
+
+  if(mInfos.find(mNodePos) == mInfos.end())
+    return;
+
+  const auto &x = mInfos[mNodePos].node.point(0).x;
+  const auto &y = mInfos[mNodePos].node.point(0).y;
+
+  tmp_circle.set_point({x, y}, 0);
+  tmp_circle.draw();
 }
 //------------------------------------------------------------------------------
 void example_1::block_invert(unsigned aNode)
@@ -498,4 +541,39 @@ void example_1::block_invert(unsigned aNode)
     mGraph.unblock(aNode);
   else
     mGraph.block(aNode);
+}
+//------------------------------------------------------------------------------
+void example_1::set_start(unsigned aNode)
+{
+  mNodePos = aNode;
+}
+//------------------------------------------------------------------------------
+void example_1::move_up()
+{
+  if(mInfos.find(mNodePos) == mInfos.end())
+    return;
+
+  const auto &info = mInfos[mNodePos];
+  for(const auto & vi : info.edges)
+  {
+    if((vi.second.dir == eDirection::UP) && (!mGraph.is_blocked(vi.first)) )
+    {
+      mGraph.unblock(mNodePos);
+      mNodePos = vi.first;
+      mGraph.block(mNodePos);
+      break;
+    }
+  }
+}
+//------------------------------------------------------------------------------
+void example_1::move_right()
+{
+}
+//------------------------------------------------------------------------------
+void example_1::move_down()
+{
+}
+//------------------------------------------------------------------------------
+void example_1::move_left()
+{
 }
