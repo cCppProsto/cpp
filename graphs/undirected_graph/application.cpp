@@ -234,6 +234,16 @@ void application::key_pressed_example_1(int aKey)
 {
   switch(aKey)
   {
+    case GLFW_KEY_LEFT:
+    {
+      mExample1.move_left();
+      break;
+    }
+    case GLFW_KEY_RIGHT:
+    {
+      mExample1.move_right();
+      break;
+    }
     case GLFW_KEY_UP:
     {
       mExample1.move_up();
@@ -241,6 +251,7 @@ void application::key_pressed_example_1(int aKey)
     }
     case GLFW_KEY_DOWN:
     {
+      mExample1.move_down();
       break;
     }
     case GLFW_KEY_ENTER:

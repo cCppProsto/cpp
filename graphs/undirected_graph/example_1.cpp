@@ -142,7 +142,7 @@ void example_1::init()
     // line 3 - 2
     edge_info.first  = 2;
     edge_info.second._point = {x_s - width, y_s};
-    edge_info.second.dir = eDirection::RIGTH;
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(3, _info));
@@ -266,7 +266,7 @@ void example_1::init()
     // line 8 - 7
     edge_info.first  = 7;
     edge_info.second._point = {x_s - width, y_s};
-    edge_info.second.dir = eDirection::RIGTH;
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     mInfos.insert(std::make_pair(8, _info));
@@ -364,7 +364,7 @@ void example_1::init()
     // line 12 - 11
     edge_info.first  = 11;
     edge_info.second._point = {x_s - width, y_s};
-    edge_info.second.dir = eDirection::RIGTH;
+    edge_info.second.dir = eDirection::LEFT;
     _info.edges.push_back(edge_info);
 
     // line 12 - 16
@@ -568,12 +568,54 @@ void example_1::move_up()
 //------------------------------------------------------------------------------
 void example_1::move_right()
 {
+  if(mInfos.find(mNodePos) == mInfos.end())
+    return;
+
+  const auto &info = mInfos[mNodePos];
+  for(const auto & vi : info.edges)
+  {
+    if((vi.second.dir == eDirection::RIGTH) && (!mGraph.is_blocked(vi.first)) )
+    {
+      mGraph.unblock(mNodePos);
+      mNodePos = vi.first;
+      mGraph.block(mNodePos);
+      break;
+    }
+  }
 }
 //------------------------------------------------------------------------------
 void example_1::move_down()
 {
+  if(mInfos.find(mNodePos) == mInfos.end())
+    return;
+
+  const auto &info = mInfos[mNodePos];
+  for(const auto & vi : info.edges)
+  {
+    if((vi.second.dir == eDirection::DOWN) && (!mGraph.is_blocked(vi.first)) )
+    {
+      mGraph.unblock(mNodePos);
+      mNodePos = vi.first;
+      mGraph.block(mNodePos);
+      break;
+    }
+  }
 }
 //------------------------------------------------------------------------------
 void example_1::move_left()
 {
+  if(mInfos.find(mNodePos) == mInfos.end())
+    return;
+
+  const auto &info = mInfos[mNodePos];
+  for(const auto & vi : info.edges)
+  {
+    if((vi.second.dir == eDirection::LEFT) && (!mGraph.is_blocked(vi.first)) )
+    {
+      mGraph.unblock(mNodePos);
+      mNodePos = vi.first;
+      mGraph.block(mNodePos);
+      break;
+    }
+  }
 }

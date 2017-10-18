@@ -11,7 +11,6 @@
 
 using point  = cpp_prosto::graphical::point2D;
 using circle = cpp_prosto::graphical::gpCircle;
-using point  = cpp_prosto::graphical::point2D;
 
 using line      = cpp_prosto::graphical::gpLine;
 using color     = cpp_prosto::graphical::Color;
