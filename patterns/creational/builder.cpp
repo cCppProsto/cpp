@@ -43,31 +43,6 @@ namespace creational_builder
       return "unknown";
     }
 
-    protected:
-      int index_by_type(eProperty aType)
-      {
-        switch (aType)
-        {
-          case eProperty::MATTACK:        { return 1;}
-          case eProperty::MDEF:           { return 2;}
-          case eProperty::PATTACK:        { return 3;}
-          case eProperty::PDEF:           { return 4;}
-          case eProperty::HEALTH:         { return 5;}
-          case eProperty::PATTACK_RANGE:  { return 6;}
-          case eProperty::MATTACK_RANGE:  { return 7;}
-          case eProperty::START:
-          case eProperty::END:            { return 0;}
-        }
-      }
-
-      void apply_by_rate(std::pair<IBase::eProperty, float> &aVal)
-      {
-        for(auto &p : mProperties)
-          if(p.first == aVal.first)
-            p.second = p.second * aVal.second;
-      }
-
-    public:
       IBase(std::initializer_list<ibase_property> aInitList)
       {
         mProperties.reserve(aInitList.size());
@@ -94,6 +69,17 @@ namespace creational_builder
       }
 
     protected:
+      void apply_by_rate(ibase_property &aVal)
+      {
+        for(auto &p : mProperties)
+          if(p.first == aVal.first)
+          {
+            p.second = p.second * aVal.second;
+            return;
+          }
+      }
+
+    protected:
       std::vector<ibase_property> mProperties;
       std::string                 mName;
   };
@@ -110,7 +96,7 @@ namespace creational_builder
     }
 
     private:
-      std::pair<IBase::eProperty, float> mPDefRate{IBase::eProperty::PDEF, 1.f};
+      ibase_property mPDefRate{IBase::eProperty::PDEF, 1.f};
   };
 
   //----------------------- SHIRT ----------------------------------------------
@@ -137,9 +123,9 @@ namespace creational_builder
       }
 
     private:
-      std::pair<IBase::eProperty, float> mPDefRate{IBase::eProperty::PDEF,      1.f};
-      std::pair<IBase::eProperty, float> mMDefRate{IBase::eProperty::MDEF,      1.f};
-      std::pair<IBase::eProperty, float> mMHealthRate{IBase::eProperty::HEALTH, 1.f};
+      ibase_property mPDefRate{IBase::eProperty::PDEF,      1.f};
+      ibase_property mMDefRate{IBase::eProperty::MDEF,      1.f};
+      ibase_property mMHealthRate{IBase::eProperty::HEALTH, 1.f};
   };
 
   //----------------------- BRIEFS ---------------------------------------------
@@ -160,8 +146,8 @@ namespace creational_builder
     }
 
     private:
-      std::pair<IBase::eProperty, float> mPDefRate{IBase::eProperty::PDEF, 1.f};
-      std::pair<IBase::eProperty, float> mMDefRate{IBase::eProperty::MDEF, 1.f};
+      ibase_property mPDefRate{IBase::eProperty::PDEF, 1.f};
+      ibase_property mMDefRate{IBase::eProperty::MDEF, 1.f};
   };
 
   //----------------------- WEAPON ---------------------------------------------
@@ -194,10 +180,10 @@ namespace creational_builder
     }
 
     private:
-      std::pair<IBase::eProperty, float> mPAttackRate{IBase::eProperty::PATTACK, 1.f};
-      std::pair<IBase::eProperty, float> mMAttackRate{IBase::eProperty::MATTACK, 1.f};
-      std::pair<IBase::eProperty, float> mPAttackRangeRate{IBase::eProperty::PATTACK_RANGE, 1.f};
-      std::pair<IBase::eProperty, float> mMAttackRangeRate{IBase::eProperty::MATTACK_RANGE, 1.f};
+      ibase_property mPAttackRate{IBase::eProperty::PATTACK, 1.f};
+      ibase_property mMAttackRate{IBase::eProperty::MATTACK, 1.f};
+      ibase_property mPAttackRangeRate{IBase::eProperty::PATTACK_RANGE, 1.f};
+      ibase_property mMAttackRangeRate{IBase::eProperty::MATTACK_RANGE, 1.f};
   };
 
   //------------------------------- FINAL PRODUCT ------------------------------
@@ -289,30 +275,30 @@ namespace creational_builder
 
     void print_info()
     {
-      std::cout << mName << ":" << std::endl << std::endl;
+      std::cout << "<<" << mName << ">>" << std::endl;
 
       if(mupCap)      std::cout << mupCap->name()     << std::endl;
       if(mupShirt)    std::cout << mupShirt->name()   << std::endl;
       if(mupBriefs)   std::cout << mupBriefs->name()  << std::endl;
       if(mupWeapon1)  std::cout << mupWeapon1->name() << std::endl;
       if(mupWeapon2)  std::cout << mupWeapon2->name() << std::endl;
-      std::cout << std::endl;
 
       std::cout << "All properties:" << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::MATTACK) << " = "
-                << mattack() << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::MDEF) << " = "
-                << mdef() << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::PATTACK) << " = "
-                << pattack() << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::PDEF) << " = "
-                << pdef() << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::HEALTH) << " = "
-                << health() << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::MATTACK_RANGE) << " = "
-                << mattack_range() << std::endl;
-      std::cout << IBase::stringPropertyValue(IBase::eProperty::PATTACK_RANGE) << " = "
-                << pattack_range() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::MATTACK)
+                << " = " << mattack() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::MDEF)
+                << " = " << mdef() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::PATTACK)
+                << " = " << pattack() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::PDEF)
+                << " = " << pdef() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::HEALTH)
+                << " = " << health() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::MATTACK_RANGE)
+                << " = " << mattack_range() << std::endl;
+      std::cout << "  "  << IBase::stringPropertyValue(IBase::eProperty::PATTACK_RANGE)
+                << " = " << pattack_range() << std::endl;
+      std::cout << std::endl;
     }
 
     std::string             mName;
@@ -320,7 +306,6 @@ namespace creational_builder
     std::unique_ptr<Cap>    mupCap;
     std::unique_ptr<Shirt>  mupShirt;
     std::unique_ptr<Briefs> mupBriefs;
-
     std::unique_ptr<Weapon> mupWeapon1;
     std::unique_ptr<Weapon> mupWeapon2;
   };
@@ -438,17 +423,98 @@ namespace creational_builder
       weapon->setName("Right eye");
       return weapon;
     }
-
   };
+
+  //------------------------------- PHYSICAL BUILDER ---------------------------
+  struct PhysicalDirtyAnt : IBuilder
+  {
+    PhysicalDirtyAnt()
+    {
+      mName = "Physical dirty ant";
+    }
+    std::unique_ptr<Cap> make_cap()
+    {
+      using property_list = std::initializer_list<IBase::ibase_property>;
+      property_list list{
+                          {IBase::eProperty::MDEF, 5}
+                         ,{IBase::eProperty::PDEF, 80}
+                        };
+
+      std::unique_ptr<Cap> cap = std::make_unique<Cap>(list);
+      cap->setName("Torn cap");
+      return cap;
+    }
+
+    std::unique_ptr<Shirt> make_shirt()
+    {
+      using property_list = std::initializer_list<IBase::ibase_property>;
+      property_list list{
+                          {IBase::eProperty::MDEF,   20}
+                         ,{IBase::eProperty::PDEF,   400}
+                         ,{IBase::eProperty::HEALTH, 500}
+                        };
+
+      std::unique_ptr<Shirt> shirt = std::make_unique<Shirt>(list);
+      shirt->setName("Vest of an ant");
+      return shirt;
+    }
+
+    std::unique_ptr<Briefs> make_briefs()
+    {
+      using property_list = std::initializer_list<IBase::ibase_property>;
+      property_list list{
+                          {IBase::eProperty::MDEF,   50}
+                         ,{IBase::eProperty::PDEF,   300}
+                         ,{IBase::eProperty::HEALTH, 250}
+                        };
+
+      std::unique_ptr<Briefs> briefs = std::make_unique<Briefs>(list);
+      briefs->setName("Red briefs");
+      return briefs;
+    }
+
+    std::unique_ptr<Weapon> make_weapon_1()
+    {
+      using property_list = std::initializer_list<IBase::ibase_property>;
+      property_list list{
+                          {IBase::eProperty::PATTACK,       250}
+                         ,{IBase::eProperty::MATTACK,       0}
+                         ,{IBase::eProperty::MATTACK_RANGE, 0}
+                         ,{IBase::eProperty::PATTACK_RANGE, 10}
+                        };
+
+      std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(list);
+      weapon->setName("Left eye");
+      return weapon;
+    }
+
+    std::unique_ptr<Weapon> make_weapon_2()
+    {
+      using property_list = std::initializer_list<IBase::ibase_property>;
+      property_list list{
+                           {IBase::eProperty::MDEF,     50}
+                          ,{IBase::eProperty::HEALTH,   500}
+                        };
+
+      std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(list);
+      weapon->setName("Right eye");
+      return weapon;
+    }
+  };
+
 
   void builder_main()
   {
     Director dir;
 
     dir.setBuilder(std::make_unique<MagicDirtyAnt>());
+    std::unique_ptr<Equipment> magic_dirty_ant(std::make_unique<Equipment>());
+    magic_dirty_ant = dir.make_equipment();
+    magic_dirty_ant->print_info();
 
-    std::unique_ptr<Equipment> dirty_ant(std::make_unique<Equipment>());
-    dirty_ant = dir.make_equipment();
-    dirty_ant->print_info();
+    dir.setBuilder(std::make_unique<PhysicalDirtyAnt>());
+    std::unique_ptr<Equipment> physical_dirty_ant(std::make_unique<Equipment>());
+    physical_dirty_ant = dir.make_equipment();
+    physical_dirty_ant->print_info();
   }
 }
