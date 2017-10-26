@@ -23,7 +23,7 @@ namespace creational_builder
      ,MATTACK_RANGE   // дальность магической атаки
      ,END
     };
-    using ibase_property = std::pair<eProperty, float>;
+   using ibase_property = std::pair<eProperty, float>;
 
     static std::string stringPropertyValue(eProperty aType)
     {
@@ -350,13 +350,14 @@ namespace creational_builder
   //------------------------------- MAGIC BUILDER ------------------------------
   struct MagicDirtyAnt : IBuilder
   {
+    using property_list  = std::initializer_list<IBase::ibase_property>;
+
     MagicDirtyAnt()
     {
       mName = "Magic dirty ant";
     }
     std::unique_ptr<Cap> make_cap()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::MDEF, 40}
                          ,{IBase::eProperty::PDEF, 10}
@@ -369,7 +370,6 @@ namespace creational_builder
 
     std::unique_ptr<Shirt> make_shirt()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::MDEF,   230}
                          ,{IBase::eProperty::PDEF,   20}
@@ -383,7 +383,6 @@ namespace creational_builder
 
     std::unique_ptr<Briefs> make_briefs()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::MDEF,   350}
                          ,{IBase::eProperty::PDEF,   30}
@@ -397,7 +396,6 @@ namespace creational_builder
 
     std::unique_ptr<Weapon> make_weapon_1()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::PATTACK,       50}
                          ,{IBase::eProperty::MATTACK,       500}
@@ -412,7 +410,6 @@ namespace creational_builder
 
     std::unique_ptr<Weapon> make_weapon_2()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                            {IBase::eProperty::MDEF,           500}
                           ,{IBase::eProperty::HEALTH,         100}
@@ -428,13 +425,14 @@ namespace creational_builder
   //------------------------------- PHYSICAL BUILDER ---------------------------
   struct PhysicalDirtyAnt : IBuilder
   {
+    using property_list  = std::initializer_list<IBase::ibase_property>;
+
     PhysicalDirtyAnt()
     {
       mName = "Physical dirty ant";
     }
-    std::unique_ptr<Cap> make_cap()
+    std::unique_ptr<Cap> make_cap() override
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::MDEF, 5}
                          ,{IBase::eProperty::PDEF, 80}
@@ -447,7 +445,6 @@ namespace creational_builder
 
     std::unique_ptr<Shirt> make_shirt()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::MDEF,   20}
                          ,{IBase::eProperty::PDEF,   400}
@@ -461,7 +458,6 @@ namespace creational_builder
 
     std::unique_ptr<Briefs> make_briefs()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::MDEF,   50}
                          ,{IBase::eProperty::PDEF,   300}
@@ -475,7 +471,6 @@ namespace creational_builder
 
     std::unique_ptr<Weapon> make_weapon_1()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                           {IBase::eProperty::PATTACK,       250}
                          ,{IBase::eProperty::MATTACK,       0}
@@ -490,7 +485,6 @@ namespace creational_builder
 
     std::unique_ptr<Weapon> make_weapon_2()
     {
-      using property_list = std::initializer_list<IBase::ibase_property>;
       property_list list{
                            {IBase::eProperty::MDEF,     50}
                           ,{IBase::eProperty::HEALTH,   500}
