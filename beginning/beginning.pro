@@ -15,7 +15,8 @@ SUBDIRS += \
     user_literals \
     menu \
     new_delete \
-    smart_pointers
+    smart_pointers \
+    tmpl_func_p1
 
 HEADERS +=
 
