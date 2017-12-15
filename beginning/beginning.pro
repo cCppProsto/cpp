@@ -18,7 +18,8 @@ SUBDIRS += \
     smart_pointers \
     tmpl_func_p1 \
     tmpl_func_p2 \
-    template_class
+    template_class \
+    lambda
 
 HEADERS +=
 
