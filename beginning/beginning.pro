@@ -21,8 +21,10 @@ SUBDIRS += \
     template_class \
     lambda
 
-HEADERS +=
+HEADERS += \
+    ../../tools_src/graphical_library/gpnumber.hpp
 
 
-SOURCES +=
+SOURCES += \
+    ../../tools_src/graphical_library/gpnumber.cpp
 
