@@ -14,6 +14,7 @@ void bubble(std::vector<T> aArray)
     for (unsigned j = 0 ; j < end - i - 1; j++)
       if(aArray[j] > aArray[j+1])
         std::swap(aArray[j], aArray[j+1]);
+
 }
 
 template<typename T>
@@ -30,6 +31,7 @@ void selection(std::vector<T> aArray)
     std::swap(aArray[i], aArray[min]);
   }
 }
+
 
 template<typename T>
 void insertion(std::vector<T> aArray)

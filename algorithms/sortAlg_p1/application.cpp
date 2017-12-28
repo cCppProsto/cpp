@@ -137,13 +137,13 @@ void application::menu_key_processing(int aKey, int aAction)
           {
             case application::eMenuState::BUBBLE:
             {
-              mBubbleAn.init(bubbleAnimate::eType::SORTED);
+              mBubbleAn.init(bubbleAnimate::eType::UNSORTED);
               mState = eAppState::APP;
               break;
             }
             case application::eMenuState::SELECTION:
             {
-              mSelectAn.init(selectanimate::eType::CUSTOM);
+              mSelectAn.init(selectanimate::eType::UNSORTED);
               mState = eAppState::APP;
               break;
             }

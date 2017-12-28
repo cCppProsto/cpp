@@ -267,7 +267,7 @@ void insertanimate::init(eType aType)
     }
     case eType::CUSTOM:
     {
-      std::vector<unsigned> v = {8,1,2,3,4,9,10,6,7};
+      std::vector<unsigned> v = {12,1,3,2,3,1,8, 100};
       gb.init(v);
       gb.sort();
       break;
