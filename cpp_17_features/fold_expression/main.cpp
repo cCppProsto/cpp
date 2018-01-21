@@ -65,7 +65,7 @@ namespace example_c
   template<typename... Args>
   auto binary_left(Args... args)
   {
-      return (0 + ... + args);
+      return (10 + ... + args);
   }
 
   void f()
@@ -106,17 +106,18 @@ namespace example_e
     auto s2 = []{ return true;};
     auto s3 = []{ return true;};
     auto s4 = []{ return true;};
+    auto s5 = []{ return true;};
 
-    cout << (isOk(s1, s2, s3, s4) ? "all Ok. Go! brrrr" : "stop" ) << endl;
+    cout << (isOk(s1, s2, s3, s4, s5) ? "all Ok. Go! brrrr" : "stop" ) << endl;
   }
 }
 
 int main()
 {
-  example_a::f();
-  example_b::f();
-  example_c::f();
-  example_d::f();
+  //example_a::f();
+  //example_b::f();
+  //example_c::f();
+  //example_d::f();
   example_e::f();
   return 0;
 }
