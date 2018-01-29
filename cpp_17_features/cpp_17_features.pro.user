@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.5.0, 2018-01-26T09:41:06. -->
+<!-- Written by QtCreator 4.5.0, 2018-01-29T08:55:50. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -310,7 +310,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">agg_init_of_cls_with_bcls/agg_init_of_cls_with_bcls.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/qtWidgets/build-cpp_17_features-Desktop_Qt_5_10_0_GCC_64bit-Debug/agg_init_of_cls_with_bcls</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/cpp_17_features/build/agg_init_of_cls_with_bcls</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -368,7 +368,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">fold_expression/fold_expression.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/qtWidgets/build-cpp_17_features-Desktop_Qt_5_10_0_GCC_64bit-Debug/fold_expression</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/cpp_17_features/build/fold_expression</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -426,7 +426,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">non_type_tmpl_param_auto/non_type_tmpl_param_auto.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/qtWidgets/build-cpp_17_features-Desktop_Qt_5_10_0_GCC_64bit-Debug/non_type_tmpl_param_auto</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/cpp_17_features/build/non_type_tmpl_param_auto</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -484,7 +484,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">cls_tmp_arg_deduction/cls_tmp_arg_deduction.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/qtWidgets/build-cpp_17_features-Desktop_Qt_5_10_0_GCC_64bit-Debug/cls_tmp_arg_deduction</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/cpp_17_features/build/cls_tmp_arg_deduction</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -542,7 +542,7 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">filesystem_library/filesystem_library.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory">/home/ioleshko/dev/lections/git/cpp/cpp_17_features/build</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/qtWidgets/build-cpp_17_features-Desktop_Qt_5_10_0_GCC_64bit-Debug/filesystem_library</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/ioleshko/dev/lections/git/cpp/cpp_17_features/build/filesystem_library</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>

@@ -40,12 +40,11 @@ namespace  example_b
     cout << "Extension   : " << aPath.extension() << endl;
     cout << endl;
 
-    // for Windows \\
-    cout << "Separator in my OS " << fs::path::preferred_separator << endl;
+    cout << "Separator in my OS "  << fs::path::preferred_separator << endl;
     cout << endl;
 
     fs::path root{"/"};
-    fs::path  dir{"dev/db/"};
+    fs::path  dir{"dev/db"};
     fs::path   db{"database.db"};
 
     fs::path pathToDB = root / dir / db;
@@ -123,7 +122,7 @@ namespace  example_e
     print_files(files);
 
     cout << "INFO filter" << endl;
-    files = getDirectoryFiles(res_dir, {".info"});
+    files = getDirectoryFiles(res_dir, {".info", ".jpg"});
     print_files(files);
 
     cout << "without filter" << endl;
@@ -153,7 +152,7 @@ namespace  example_f
     ofstream("file_test");
 
     cout << "Initial file permissions for a file: ";
-    permission(fs::status("rainer.txt").permissions());
+    permission(fs::status("file_test").permissions());
 
     fs::permissions("file_test",
                       fs::perms::add_perms
@@ -178,11 +177,11 @@ namespace  example_f
 
 int main()
 {
-  //example_a::example();
-  //example_b::example();
-  //example_c::example();
-  //example_d::example();
-  //example_e::example();
+  example_a::example();
+  example_b::example();
+  example_c::example();
+  example_d::example();
+  example_e::example();
   example_f::example();
 
   return 0;
