@@ -49,6 +49,8 @@ void appSettings::load()
             {
               return a.first < b.first;
             });
+  if(mAvailableLevels.size() == 0)
+    return;
   mAvailableLevels[0].second = true;
 
   _load_texture();
