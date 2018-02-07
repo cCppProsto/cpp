@@ -78,6 +78,9 @@ void socoban::initializeGL()
   glEnable(GL_SMOOTH);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_TEXTURE_2D);
+
+
+  appSettings::instance().load();
 }
 //------------------------------------------------------------------------------
 void socoban::resizeGL(int aW, int aH)
@@ -224,6 +227,57 @@ void socoban::_draw_menu()
 //------------------------------------------------------------------------------
 void socoban::_draw_menu_select_level()
 {
+  auto &app = appSettings::instance();
+  static auto app_w = app.screenWidth() / 2.f;
+  static auto app_h = app.screenHeight() / 3.f;
+
+  auto &levels = app.availablesLevels();
+  int  l_count = (int)levels.size();
+
+  if(levels.empty())
+    return;
+
+  static auto font          = QFont("Comic Sans MS", 15);
+  static auto font_selected = QFont("Comic Sans MS", 20);
+  font_selected.setBold(true);
+
+  int tmp = (mSelectLevelIndex - 6);
+  int start = tmp < 0 ? 0 : tmp;
+
+  tmp = (start + 6);
+  int end = (tmp < l_count) ? tmp : l_count - 1;
+
+  auto x   = app_w - 100;
+  auto y   = app_h;
+  auto dy  = 25.f;
+
+  for(int i = start; i <= end; ++i)
+  {
+    const auto &[lvl, isLock] = levels[i];
+
+    QString item_str = "Level " + QString::number(lvl);
+
+    QFont  &rf = (i == mSelectLevelIndex) ? font_selected : font;
+
+    Qt::GlobalColor color = Qt::gray;
+
+    if(i == mSelectLevelIndex)
+    {
+      if(isLock == true)
+        color = Qt::red;
+    }
+    else
+    {
+      if(isLock == true)
+        color = Qt::white;
+    }
+
+    qglColor(color);
+    renderText(x, y, item_str, rf);
+
+    y += dy;
+  }
+
 }
 //------------------------------------------------------------------------------
 void socoban::_draw_player_stat()
@@ -260,15 +314,24 @@ void socoban::_key_released_menu(int aKey)
 //------------------------------------------------------------------------------
 void socoban::_key_released_menu_select_level(int aKey)
 {
+  const auto &levels = appSettings::instance().availablesLevels();
+  int levels_count = (int)levels.size();
+
   switch(aKey)
   {
     case Qt::Key_Up:
     {
+      --mSelectLevelIndex;
+      if(mSelectLevelIndex < 0)
+        mSelectLevelIndex = 0;
       break;
     }
     case Qt::Key_Down:
     {
-      break;
+      ++mSelectLevelIndex;
+      if(mSelectLevelIndex >= levels_count)
+        mSelectLevelIndex = levels_count - 1;
+    break;
     }
     case Qt::Key_Enter:
     case Qt::Key_Return:

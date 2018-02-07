@@ -1,5 +1,6 @@
 #include "appsettings.hpp"
 
+#include <QDirIterator>
 
 static const QString levels_path = "levels/";
 
@@ -21,6 +22,36 @@ appSettings &appSettings::instance()
 
 void appSettings::load()
 {
+  // load app settings
+  // ...
+
+  // load player info
+  // ...
+
+  // load levels info
+
+  mAvailableLevels.clear();
+
+  QDirIterator it(levels_path);
+
+  while (it.hasNext())
+  {
+    it.next();
+    QFileInfo info(it.fileInfo());
+    if(info.completeSuffix() == "lvl")
+      mAvailableLevels.push_back({info.baseName().toInt(), true});
+  }
+
+  std::sort(mAvailableLevels.begin(), mAvailableLevels.end(),
+            [](const auto &a, const auto &b) -> bool
+            {
+              return a.first < b.first;
+            });
+
+  //if(mAvailableLevels.size() == 0)
+  //  return;
+
+  //mAvailableLevels[0].second = true;
 }
 
 void appSettings::save()
@@ -42,5 +73,33 @@ unsigned appSettings::screenHeight() const
   static unsigned res{600};
   return res;
 }
+const std::vector<std::pair<int, bool>> &appSettings::availablesLevels()
+{
+  return mAvailableLevels;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

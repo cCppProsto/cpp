@@ -47,7 +47,7 @@ private:
   void _key_released_play(int);
 
 private:
-  int mSelectLevelIndex;
+  int mSelectLevelIndex{0};
 
   eState  mState{eState::MENU};
   eMenu   mCurrentMenu{eMenu::PLAY};

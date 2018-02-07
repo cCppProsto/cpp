@@ -13,7 +13,6 @@ namespace example_a
     pair   p(2, 4.5);       // deduces to std::pair<int, double> p(2, 4.5);
     vector v_a{1,2,3,4};    // deduces to std::vector<int> v{1,2,3,4};
     auto   v_b = std::vector<int>{};
-
   }
 }
 
@@ -60,10 +59,21 @@ namespace example_c
 
 int main()
 {
-
-
   example_a::example();
   example_b::example();
   example_c::example();
   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
