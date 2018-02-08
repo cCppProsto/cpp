@@ -8,7 +8,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = socobanGL
+TARGET = socobanGL_p1
 TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS

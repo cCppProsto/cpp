@@ -23,6 +23,7 @@ level::level()
 //------------------------------------------------------------------------------
 void level::reset()
 {
+  load(mLevel);
 }
 //------------------------------------------------------------------------------
 void level::load(int aLevel)
@@ -133,18 +134,117 @@ bool level::isLoad()
 //------------------------------------------------------------------------------
 void level::player_up()
 {
+  _move(-1, 0);
 }
 //------------------------------------------------------------------------------
 void level::player_down()
 {
+  _move(1, 0);
 }
 //------------------------------------------------------------------------------
 void level::player_left()
 {
+  _move(0, -1);
 }
 //------------------------------------------------------------------------------
 void level::player_rigth()
 {
+  _move(0, 1);
+}
+//------------------------------------------------------------------------------
+void level::_move(int aDl, int aDc)
+{
+  auto &[line, column] = mPlayerPos;
+
+  auto nl  = line   + aDl;                // next line
+  auto nc  = column + aDc;                // next column
+
+  auto nnl = nl + aDl;                    // next next line
+  auto nnc = nc + aDc;                    // next next column
+
+  auto coff  = mColumns * line + column;  // current offset
+  auto noff  = mColumns * nl + nc;        // next offset
+  auto nnoff = mColumns * nnl + nnc;      // next next offset
+
+  auto &f   = mRoom[coff];                 // current field
+  auto &nf  = mRoom[noff];                 // next field
+  auto &nnf = mRoom[nnoff];                // next next field
+
+  bool isMoving = false;
+
+  switch(nf)
+  {
+    case eField::BOX:
+    {
+      if(nnf == eField::GOAL)
+      {
+        f   = (f == eField::PLAYER) ? eField::EMPTY : eField::GOAL;
+        nf  = eField::PLAYER;
+        nnf = eField::BOX_ON_GOAL;
+        isMoving = true;
+        ++mBoxesOnGoal;
+        break;
+      }
+      if(nnf == eField::EMPTY)
+      {
+        f   = (f == eField::PLAYER) ? eField::EMPTY : eField::GOAL;
+        nf  = eField::PLAYER;
+        nnf = eField::BOX;
+        isMoving = true;
+        break;
+      }
+      break;
+    }
+    case eField::BOX_ON_GOAL:
+    {
+      if(nnf == eField::GOAL)
+      {
+        f   = (f == eField::PLAYER) ? eField::EMPTY : eField::GOAL;
+        nf  = eField::PLAYER_ON_GOAL;
+        nnf = eField::BOX_ON_GOAL;
+        isMoving = true;
+        break;
+      }
+      if(nnf == eField::EMPTY)
+      {
+        f   = (f == eField::PLAYER) ? eField::EMPTY : eField::GOAL;
+        nf  = eField::PLAYER_ON_GOAL;
+        nnf = eField::BOX;
+        isMoving = true;
+        --mBoxesOnGoal;
+        break;
+      }
+      break;
+    }
+    case eField::GOAL:
+    {
+      f   = (f == eField::PLAYER) ? eField::EMPTY : eField::GOAL;
+      nf  = eField::PLAYER_ON_GOAL;
+      isMoving = true;
+      break;
+    }
+    case eField::EMPTY:
+    {
+      f  = (f == eField::PLAYER) ? eField::EMPTY : eField::GOAL;
+      nf = eField::PLAYER;
+      isMoving = true;
+      break;
+    }
+    case eField::WALL:
+    case eField::PLAYER:
+    case eField::PLAYER_ON_GOAL:
+      break;
+  }
+
+  if(isMoving)
+  {
+    line   = nl;
+    column = nc;
+    ++mSteps;
+
+    if( mBoxesOnGoal == mGoalCount)
+      mIsComplete = true;
+  }
 }
 //------------------------------------------------------------------------------
 int level::steps_count() const

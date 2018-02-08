@@ -379,18 +379,22 @@ void socoban::_key_released_play(int aKey)
   {
     case Qt::Key_Up:
     {
+      mLevel.player_up();
       break;
     }
     case Qt::Key_Down:
     {
+      mLevel.player_down();
       break;
     }
     case Qt::Key_Left:
     {
+      mLevel.player_left();
       break;
     }
     case Qt::Key_Right:
     {
+      mLevel.player_rigth();
       break;
     }
     case Qt::Key_Escape:
@@ -400,6 +404,7 @@ void socoban::_key_released_play(int aKey)
     }
     case Qt::Key_R:
     {
+      mLevel.reset();
       break;
     }
   }

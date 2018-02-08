@@ -38,6 +38,10 @@ public:
   int boxes_on_goal() const;
 
 private:
+
+  void _move(int, int);
+
+private:
   int mLevel{-1};
   int mColumns{0};
   int mLines{0};
