@@ -7,6 +7,7 @@ SUBDIRS += \
     non_type_tmpl_param_auto \
     cls_tmp_arg_deduction \
     filesystem_library \
-    optional_any_variant
+    optional_any_variant \
+    fallthrough
 
 
