@@ -187,11 +187,46 @@ namespace example_d
   }
 }
 
+namespace example_e
+{
+  enum class eAlert
+  {
+    Red
+   ,Orange
+   ,Yellow
+   ,Green
+  };
+
+  void test()
+  {
+    eAlert alert{eAlert::Red};
+    switch (alert)
+    {
+      case eAlert::Red:
+        cout << "ALERT EVACUATE!!" << endl;
+        [[fallthrough]];
+
+      case eAlert::Orange:
+        cout << "ALERT SOUND" << endl;
+        [[fallthrough]];
+
+      case eAlert::Yellow:
+        cout << "ATTENTION SOUND" << endl;
+        return;
+
+      case eAlert::Green:
+        return;
+    }
+  }
+}
+
+
 int main()
 {
   example_a::test();
   example_b::test();
   example_c::test();
   example_d::test();
+  example_e::test();
   return 0;
 }

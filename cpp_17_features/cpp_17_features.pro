@@ -8,6 +8,8 @@ SUBDIRS += \
     cls_tmp_arg_deduction \
     filesystem_library \
     optional_any_variant \
-    fallthrough
+    fallthrough \
+    nodiscard \
+    maybe_unused
 
 

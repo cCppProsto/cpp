@@ -5,6 +5,4 @@ CONFIG -= qt
 
 CONFIG += c++1z
 
-#QMAKE_CXXFLAGS += -Werror
-
 SOURCES += main.cpp
