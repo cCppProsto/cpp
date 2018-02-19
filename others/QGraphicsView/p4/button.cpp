@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
+#include <QGraphicsScene>
 
 #include <QDebug>
 
@@ -23,8 +24,31 @@ void button::paint(QPainter *painter,
   if(mHover)
     painter->setPen(QColor(255, 0, 0));
 
+  QList<QGraphicsItem*> l = scene()->items();
+  foreach(QGraphicsItem *item, l)
+  {
+    if(item == this)
+      continue;
+
+    if(collidesWithItem(item))
+    {
+      painter->setBrush(QBrush(Qt::green));
+      item->update();
+    }
+  }
+
   painter->drawPixmap(0,0, mWidth, mHeigth, mPixMap);
   painter->drawRoundedRect(0, 0, mWidth, mHeigth, 5, 5);
+}
+//------------------------------------------------------------------------------
+void button::enableMouseMoving()
+{
+  mIsMovable = true;
+}
+//------------------------------------------------------------------------------
+void button::disableMouseMoving()
+{
+  mIsMovable = false;
 }
 //------------------------------------------------------------------------------
 void button::setGeometry(int aWidth, int aHeight)
@@ -62,18 +86,21 @@ void button::mousePressEvent(QGraphicsSceneMouseEvent *aEvent)
 //------------------------------------------------------------------------------
 void button::mouseMoveEvent(QGraphicsSceneMouseEvent *aEvent)
 {
-  int distance = ((aEvent->pos() - mStartMovePos)).manhattanLength();
-  if(distance > QApplication::startDragDistance())
+  if(mIsMovable)
   {
-    QPointF np = mapToScene(aEvent->pos() - mStartMovePos);
+    int distance = ((aEvent->pos() - mStartMovePos)).manhattanLength();
+    if(distance > QApplication::startDragDistance())
+    {
+      QPointF np = mapToScene(aEvent->pos() - mStartMovePos);
 
-    if( (np.x() < 0) || (np.y() < 0) )
-      return;
-    if( (np.x() > 800) || (np.y() > 800) )
-      return;
+      if( (np.x() < 0) || (np.y() < 0) )
+        return;
+      if( (np.x() > 800) || (np.y() > 800) )
+        return;
 
-    mIsMoving = true;
-    this->setPos(np);
+      mIsMoving = true;
+      this->setPos(np);
+    }
   }
 }
 //------------------------------------------------------------------------------

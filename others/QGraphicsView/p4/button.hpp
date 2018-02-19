@@ -22,8 +22,10 @@ public:
   void hoverEnterEvent(QGraphicsSceneHoverEvent*)   override;
   void hoverLeaveEvent(QGraphicsSceneHoverEvent*)   override;
 
-  void setGeometry(int, int);
+  void enableMouseMoving();
+  void disableMouseMoving();
 
+  void setGeometry(int, int);
   void setImage(QString);
 
 signals:
@@ -33,8 +35,8 @@ private:
   int mWidth{0};
   int mHeigth{0};
 
+  bool mIsMovable{false};
   bool mIsMoving{false};
-
   bool mHover{false};
 
   QPixmap mPixMap;

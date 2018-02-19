@@ -6,6 +6,11 @@
 
 #include "button.hpp"
 
+#include "zombieattack.hpp"
+#include "zombiemoving.hpp"
+#include "zombiestanding.hpp"
+
+#include "zombie.hpp"
 
 class viewExample : public QGraphicsView
 {
@@ -20,11 +25,17 @@ private slots:
   void btn_B_clicked(Qt::MouseButton);
   void btn_C_clicked(Qt::MouseButton);
 
+  void keyReleaseEvent(QKeyEvent*)override;
+
 private:
   button mBtnBomb;
   button mBtnB;
   button mBtnC;
 
+  zombieAttack   mZombieAttack;
+  zombieMoving   mZombieMoving;
+  zombieStanding mZombieNothing;
+  zombie         mZombie;
 
   QGraphicsScene mScene;
 };

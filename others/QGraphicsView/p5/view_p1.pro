@@ -26,11 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     viewexample.cpp \
-    button.cpp
+    button.cpp \
+    zombieattack.cpp \
+    zombiemoving.cpp \
+    zombiestanding.cpp \
+    zombie.cpp
 
 HEADERS += \
     viewexample.hpp \
-    button.hpp
+    button.hpp \
+    zombieattack.hpp \
+    zombiemoving.hpp \
+    zombiestanding.hpp \
+    zombie.hpp
 
 FORMS +=
 

@@ -28,6 +28,7 @@ viewExample::viewExample()
 void viewExample::_init_view_elements()
 {
   mBtnBomb.setPos(50, 50);
+  mBtnBomb.enableMouseMoving();
   mBtnBomb.setImage(":/pics/pics/bomb_a_64.png");
   connect(&mBtnBomb, &button::btnMouseReleaseEvent,
           this, &viewExample::btn_Bomb_clicked);

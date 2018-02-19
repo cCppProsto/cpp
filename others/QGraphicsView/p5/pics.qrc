@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/pics">
+        <file>pics/bomb_a_64.png</file>
+        <file>pics/soldier_a_64.png</file>
+        <file>pics/soldier_b_64.png</file>
+    </qresource>
+    <qresource prefix="/zombies">
+        <file>pics/zombie_attack.png</file>
+        <file>pics/zombie_moving.png</file>
+        <file>pics/zombie_standing.png</file>
+    </qresource>
+</RCC>
