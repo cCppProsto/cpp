@@ -1,15 +1,13 @@
 #include <QApplication>
+#include <graphicviewexample.hpp>
 
-#include "graphicviewexample.hpp"
 
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
 
-  graphicViewExample view;
-
-  view.show();
-  //view.showFullScreen();
+  graphicViewExample s;
+  s.show();
 
   return a.exec();
 }

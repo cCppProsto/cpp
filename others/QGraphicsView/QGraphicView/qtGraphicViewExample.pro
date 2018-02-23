@@ -15,20 +15,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    strategoview.cpp \
     button.cpp \
     zombieattack.cpp \
     zombiemoving.cpp \
     zombie.cpp \
-    zombiestanding.cpp
+    zombiestanding.cpp \
+    graphicviewexample.cpp
 
 HEADERS += \
-    strategoview.hpp \
     button.hpp \
     zombieattack.hpp \
     zombiemoving.hpp \
     zombie.hpp \
-    zombiestanding.hpp
+    zombiestanding.hpp \
+    graphicviewexample.hpp
 
 FORMS +=
 

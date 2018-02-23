@@ -1,4 +1,4 @@
-#include "strategoview.hpp"
+#include "graphicviewexample.hpp"
 
 #include <QGraphicsItem>
 #include <QDebug>
