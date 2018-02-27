@@ -1,6 +1,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
+
 #include "mainscene.hpp"
+#include "dragdropinfo.hpp"
 
 mainScene::mainScene()
 {
@@ -29,20 +31,19 @@ void mainScene::mousePressEvent(QGraphicsSceneMouseEvent *apEvent)
   {
     const QPointF &pos  = apEvent->scenePos();
 
+    dragDropInfo &ddi = dragDropInfo::instance();
+
     if(_is_moving_hover_main_field(pos))
     {
       if(!mMainField.fieldIsEmpty(pos))
-      {
-        qWarning() << "Not empty MAIN";
-      }
+        ddi.push({eDragInfo::MainField, mMainField.getFieldType(pos), pos});
     }
     else if(_is_moving_hover_primary_field(pos))
     {
       if(!mPrimaryField.fieldIsEmpty(pos))
-      {
-        qWarning() << "Not empty Primary";
-      }
+        ddi.push({eDragInfo::PrimaryField, mPrimaryField.getFieldType(pos), pos});
     }
+    QGraphicsScene::mousePressEvent(apEvent);
   }
 }
 //------------------------------------------------------------------------------
@@ -59,6 +60,8 @@ void mainScene::mouseMoveEvent(QGraphicsSceneMouseEvent *apEvent)
 
   if(primaryHover)
     mPrimaryField.enableHoverPos(apEvent->scenePos());
+
+  QGraphicsScene::mouseMoveEvent(apEvent);
 }
 //------------------------------------------------------------------------------
 bool mainScene::_is_moving_hover_main_field(const QPointF &aPos)
@@ -77,6 +80,43 @@ bool mainScene::_is_moving_hover_primary_field(const QPointF &aPos)
       && (aPos.y() <= mPrimaryField.ybr());
 }
 //------------------------------------------------------------------------------
-void mainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
+void mainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *apEvent)
 {
+  const QPointF &pos = apEvent->scenePos();
+
+  dragDropInfo &ddi = dragDropInfo::instance();
+  if(!ddi.isEmpty())
+  {
+    if(_is_moving_hover_main_field(pos))
+    {
+      if(ddi.object().from == eDragInfo::PrimaryField)
+      {
+        if(mMainField.fieldIsEmpty(pos))
+          _move_from_primary_to_main(ddi.object(), pos);
+      }
+    }
+    else if(_is_moving_hover_primary_field(pos))
+    {
+      if(ddi.object().from == eDragInfo::MainField)
+      {
+        if(mPrimaryField.fieldIsEmpty(pos))
+          _move_from_main_to_primary(ddi.object(), pos);
+      }
+    }
+    ddi.reset();
+  }
+  QGraphicsScene::mouseReleaseEvent(apEvent);
 }
+//------------------------------------------------------------------------------
+void mainScene::_move_from_main_to_primary(sDragData aFrom, QPointF aPos)
+{
+  eCellType t = mMainField.take_field(aFrom.drag_pos);
+  mPrimaryField.set_field(aPos, t);
+}
+//------------------------------------------------------------------------------
+void mainScene::_move_from_primary_to_main(sDragData aFrom, QPointF aPos)
+{
+  eCellType t = mPrimaryField.take_field(aFrom.drag_pos);
+  mMainField.set_field(aPos, t);
+}
+

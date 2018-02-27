@@ -1,9 +1,9 @@
-#include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
+#include <QDebug>
 
-#include "dragdropinfo.hpp"
 #include "mainscene.hpp"
+#include "dragdropinfo.hpp"
 
 bool distanceIsMoving(QPointF aPoint)
 {
@@ -52,14 +52,13 @@ void mainScene::mousePressEvent(QGraphicsSceneMouseEvent *apEvent)
       if(!mPrimaryField.fieldIsEmpty(pos))
         ddi.push({eDragInfo::PrimaryField, mPrimaryField.getFieldType(pos), pos});
     }
-
     if(!ddi.isEmpty())
     {
       mDragDrawObj.show();
       mDragDrawObj.setPos(apEvent->scenePos());
-
       mMouseLeftClickPos = apEvent->scenePos();
-      mLeftBtnPressed    = true;
+
+      mLeftBtnPressed = true;
     }
     QGraphicsScene::mousePressEvent(apEvent);
   }
@@ -83,16 +82,32 @@ void mainScene::mouseMoveEvent(QGraphicsSceneMouseEvent *apEvent)
       {
         mDragDrawObj.setPos(apEvent->scenePos());
 
-        if(mainHover && ddi.object().from == eDragInfo::PrimaryField)
+        if(mainHover)
           mMainField.enableHoverPos(apEvent->scenePos());
 
-        if(primaryHover && ddi.object().from == eDragInfo::MainField)
+        if(primaryHover)
           mPrimaryField.enableHoverPos(apEvent->scenePos());
       }
     }
   }
   else
     QGraphicsScene::mouseMoveEvent(apEvent);
+}
+//------------------------------------------------------------------------------
+bool mainScene::_is_moving_hover_main_field(const QPointF &aPos)
+{
+  return (aPos.x() >= mMainField.xtl())
+      && (aPos.x() <= mMainField.xbr())
+      && (aPos.y() >= mMainField.ytl())
+      && (aPos.y() <= mMainField.ybr());
+}
+//------------------------------------------------------------------------------
+bool mainScene::_is_moving_hover_primary_field(const QPointF &aPos)
+{
+  return (aPos.x() >= mPrimaryField.xtl())
+      && (aPos.x() <= mPrimaryField.xbr())
+      && (aPos.y() >= mPrimaryField.ytl())
+      && (aPos.y() <= mPrimaryField.ybr());
 }
 //------------------------------------------------------------------------------
 void mainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *apEvent)
@@ -124,47 +139,25 @@ void mainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *apEvent)
         }
       }
     }
+    ddi.reset();
   }
 
   mDragDrawObj.hide();
   mLeftBtnPressed = false;
-  dragDropInfo::instance().reset();
   QGraphicsScene::mouseReleaseEvent(apEvent);
+
   update();
-}
-//------------------------------------------------------------------------------
-bool mainScene::_is_moving_hover_main_field(const QPointF &aPos)
-{
-  return (aPos.x() >= mMainField.xtl())
-      && (aPos.x() <= mMainField.xbr())
-      && (aPos.y() >= mMainField.ytl())
-      && (aPos.y() <= mMainField.ybr());
-}
-//------------------------------------------------------------------------------
-bool mainScene::_is_moving_hover_primary_field(const QPointF &aPos)
-{
-  return (aPos.x() >= mPrimaryField.xtl())
-      && (aPos.x() <= mPrimaryField.xbr())
-      && (aPos.y() >= mPrimaryField.ytl())
-      && (aPos.y() <= mPrimaryField.ybr());
 }
 //------------------------------------------------------------------------------
 void mainScene::_move_from_main_to_primary(sDragData aFrom, QPointF aPos)
 {
   eCellType t = mMainField.take_field(aFrom.drag_pos);
   mPrimaryField.set_field(aPos, t);
-
-  if(t != aFrom.type)
-    qWarning() << "_move_from_main_to_primary(sDragData aFrom, QPointF aPos) !!!!!!!!";
 }
 //------------------------------------------------------------------------------
 void mainScene::_move_from_primary_to_main(sDragData aFrom, QPointF aPos)
 {
   eCellType t = mPrimaryField.take_field(aFrom.drag_pos);
   mMainField.set_field(aPos, t);
-
-  if(t != aFrom.type)
-    qWarning() << "_move_from_main_to_primary(sDragData aFrom, QPointF aPos) !!!!!!!!";
 }
-
 

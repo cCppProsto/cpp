@@ -5,12 +5,12 @@
 primaryField::primaryField()
   : field(3, 4, 70)
 {
-  init_vectors();
+  init_cells();
 }
 //------------------------------------------------------------------------------
-void primaryField::init_vectors()
+void primaryField::init_cells()
 {
   mvFields.resize(mLines*mColumns);
   for(int i = 0; i < mLines*mColumns; ++i)
-    mvFields[i] = eFieldType::EMPTY;
+    mvFields[i] = eCellType::EMPTY;
 }

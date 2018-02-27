@@ -10,7 +10,7 @@ public:
   mainField();
 
 private:
-  void init_vectors() override;
+  void init_cells() override;
 };
 
 #endif // MAINFIELD_HPP

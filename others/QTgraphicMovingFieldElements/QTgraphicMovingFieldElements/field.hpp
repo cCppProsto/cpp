@@ -21,10 +21,10 @@ public:
   void disableHover();
 
   bool fieldIsEmpty(const QPointF&);
-  eFieldType getFieldType(const QPointF&);
+  eCellType getFieldType(const QPointF&);
 
-  eFieldType take_field(QPointF);
-  void set_field(QPointF, eFieldType);
+  eCellType take_field(QPointF);
+  void set_field(QPointF, eCellType);
 
   void boundingRectOnSceneCalc();
 
@@ -34,7 +34,7 @@ public:
   qreal ybr();
 
 protected:
-  virtual void init_vectors() = 0;
+  virtual void init_cells() = 0;
   virtual void _draw_cells(QPainter *);
 
 protected:
@@ -46,7 +46,7 @@ protected:
   bool                mHover{false};
   QRectF              mBoundingSceneRect;
   QPointF             mMousePos;
-  QVector<eFieldType> mvFields;
+  QVector<eCellType> mvFields;
 };
 
 #endif // FIELD_HPP

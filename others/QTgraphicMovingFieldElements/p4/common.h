@@ -19,10 +19,9 @@ enum class eDragInfo
 
 struct sDragData
 {
-  eDragInfo  from;
+  eDragInfo from;
   eCellType type;
-  QPointF    drag_pos;
+  QPointF   drag_pos;
 };
-
 
 #endif // COMMON_H

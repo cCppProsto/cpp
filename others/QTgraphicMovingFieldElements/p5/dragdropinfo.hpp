@@ -1,10 +1,8 @@
-#ifndef DRAGDROPBUFFER_HPP
-#define DRAGDROPBUFFER_HPP
-
-#include <QPointF>
-#include <QPair>
+#ifndef DRAGDROPINFO_HPP
+#define DRAGDROPINFO_HPP
 
 #include "common.h"
+
 
 class dragDropInfo
 {
@@ -28,4 +26,4 @@ private:
   sDragData mObjectInfo{eDragInfo::Unknown, eCellType::EMPTY, {0,0}};
 };
 
-#endif // DRAGDROPBUFFER_HPP
+#endif // DRAGDROPINFO_HPP

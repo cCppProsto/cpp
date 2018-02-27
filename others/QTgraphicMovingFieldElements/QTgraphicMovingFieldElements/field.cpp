@@ -82,17 +82,16 @@ void field::_draw_cells(QPainter *painter)
     {
       switch(mvFields[l*mColumns + c])
       {
-        case eFieldType::EMPTY:
+        case eCellType::EMPTY:
         {
-          //painter->drawText(c*70 + 15, l*70 + 20,"Empty");
           break;
         }
-        case eFieldType::TYPE_1:
+        case eCellType::TYPE_1:
         {
           painter->drawText(c*mCellWidth + 15, l*mCellWidth + 20,"Type 1");
           break;
         }
-        case eFieldType::TYPE_2:
+        case eCellType::TYPE_2:
         {
           painter->drawText(c*mCellWidth + 15, l*mCellWidth + 20,"Type 2");
           break;
@@ -104,10 +103,10 @@ void field::_draw_cells(QPainter *painter)
 //------------------------------------------------------------------------------
 bool field::fieldIsEmpty(const QPointF &aPos)
 {
-  return getFieldType(aPos) == eFieldType::EMPTY;
+  return getFieldType(aPos) == eCellType::EMPTY;
 }
 //------------------------------------------------------------------------------
-eFieldType field::getFieldType(const QPointF &aPos)
+eCellType field::getFieldType(const QPointF &aPos)
 {
   QPointF pos = mapFromScene(aPos);
   int c = pos.x()/mCellWidth;
@@ -115,17 +114,17 @@ eFieldType field::getFieldType(const QPointF &aPos)
   return mvFields[l*mColumns+c];
 }
 //------------------------------------------------------------------------------
-eFieldType field::take_field(QPointF aPos)
+eCellType field::take_field(QPointF aPos)
 {
   QPointF pos = mapFromScene(aPos);
   int c = pos.x()/mCellWidth;
   int l = pos.y()/mCellWidth;
-  eFieldType res = mvFields[l*mColumns+c];
-  mvFields[l*mColumns+c] = eFieldType::EMPTY;
+  eCellType res = mvFields[l*mColumns+c];
+  mvFields[l*mColumns+c] = eCellType::EMPTY;
   return res;
 }
 //------------------------------------------------------------------------------
-void field::set_field(QPointF aPos, eFieldType aType)
+void field::set_field(QPointF aPos, eCellType aType)
 {
   QPointF pos = mapFromScene(aPos);
   int c = pos.x()/mCellWidth;

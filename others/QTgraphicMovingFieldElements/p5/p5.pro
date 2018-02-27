@@ -29,7 +29,9 @@ SOURCES += \
     mainscene.cpp \
     field.cpp \
     mainfield.cpp \
-    primaryfield.cpp
+    primaryfield.cpp \
+    dragdropinfo.cpp \
+    dragdrawobj.cpp
 
 HEADERS += \
     graphicviewexample.hpp \
@@ -37,6 +39,8 @@ HEADERS += \
     field.hpp \
     mainfield.hpp \
     primaryfield.hpp \
-    common.h
+    common.h \
+    dragdropinfo.hpp \
+    dragdrawobj.hpp
 
 FORMS +=

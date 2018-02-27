@@ -5,18 +5,18 @@
 mainField::mainField()
   : field(10, 10, 70)
 {
-  init_vectors();
+  init_cells();
 }
 //------------------------------------------------------------------------------
-void mainField::init_vectors()
+void mainField::init_cells()
 {
   mvFields.resize(mLines*mColumns);
 
   for(int i = 0; i < mLines*mColumns; ++i)
-    mvFields[i] = eFieldType::EMPTY;
+    mvFields[i] = eCellType::EMPTY;
 
-  mvFields[90] = eFieldType::TYPE_2;
-  mvFields[99] = eFieldType::TYPE_1;
+  mvFields[90] = eCellType::TYPE_2;
+  mvFields[99] = eCellType::TYPE_1;
 
 }
 
