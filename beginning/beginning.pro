@@ -20,7 +20,8 @@ SUBDIRS += \
     tmpl_func_p2 \
     template_class \
     lambda \
-    cpp_exc
+    cpp_exc \
+    rvalue_move
 
 HEADERS += \
     ../../tools_src/graphical_library/gpnumber.hpp
