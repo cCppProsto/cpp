@@ -21,7 +21,8 @@ SUBDIRS += \
     template_class \
     lambda \
     cpp_exc \
-    rvalue_move
+    rvalue_move \
+    parallel_p1
 
 HEADERS += \
     ../../tools_src/graphical_library/gpnumber.hpp
