@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     begin \
-    MainWindowQtEventFilter
+    MainWindowQtEventFilter \
+    youtubeApi_p1
