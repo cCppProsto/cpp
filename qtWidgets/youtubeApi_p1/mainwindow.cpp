@@ -12,19 +12,91 @@
 #include <QJsonArray>
 #include <QList>
 #include <QDebug>
+#include <QItemSelectionModel>
 
+#include <QStringList>
+#include <QStringListModel>
+#include <QAbstractItemView>
 
+#include "listviewdelegate.hpp"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+//------------------------------------------------------------------------------
+auto get_statistic_map(const QVariantMap &aMap)
+{
+  auto item = aMap["items"].toList().at(0);
+  return item.toMap()["statistics"].toMap();
+}
+//------------------------------------------------------------------------------
+auto get_thumbnails_map(const QVariantMap &aMap)
+{
+  auto item = aMap["items"].toList().at(0);
+  auto snippet = item.toMap()["snippet"].toMap();
+
+  return snippet["thumbnails"].toMap();
+}
+//------------------------------------------------------------------------------
+void fill_ytStatistic(ytStatistic &aObj, const QVariantMap &aMap)
+{
+  aObj.commentCount           = aMap["commentCount"].toInt();
+  aObj.subscriberCount        = aMap["subscriberCount"].toInt();
+  aObj.viewCount              = aMap["viewCount"].toInt();
+  aObj.videoCount             = aMap["videoCount"].toInt();
+  aObj.hiddenSubscriberCount  = aMap["hiddenSubscriberCount"].toBool();
+}
+//------------------------------------------------------------------------------
+void fill_ytThumbs(ytThumbnails &aObj, const QVariantMap &aMap)
+{
+  {
+    auto r = aMap["default"].toMap();
+    aObj.default_width  = r["width"].toInt();
+    aObj.default_height = r["height"].toInt();;
+    aObj.default_url    = r["url"].toString();
+  }
+  {
+    auto r = aMap["medium"].toMap();
+    aObj.medium_width  = r["width"].toInt();
+    aObj.medium_height = r["height"].toInt();;
+    aObj.medium_url    = r["url"].toString();
+  }
+  {
+    auto r = aMap["high"].toMap();
+    aObj.high_width  = r["width"].toInt();
+    aObj.high_height = r["height"].toInt();;
+    aObj.high_url    = r["url"].toString();
+  }
+}
+
+
+//------------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-  test();
-}
 
+  ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  ui->listView->setViewMode(QListView::ListMode);
+  ui->listView->setIconSize(QSize(200,200));
+  //ui->listView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
+  //ui->listView->setResizeMode(QListView::Adjust);
+  //ui->listView->setResizeMode(QListView::Fixed);
+
+  ui->listView->setItemDelegate(new listViewDelegate(ui->listView));
+
+  stModel.setColumnCount(1);
+  stModel.setRowCount(2);
+
+
+  stModel.setData(stModel.index(0,0), QIcon(":/pics/pics/test.png"), Qt::DecorationRole);
+  stModel.setData(stModel.index(1,0), QIcon(":/pics/pics/folder.png"), Qt::DecorationRole);
+
+  ui->listView->setModel(&stModel);
+  load_stat();
+}
+//------------------------------------------------------------------------------
 MainWindow::~MainWindow()
 {
   delete ui;
@@ -34,44 +106,58 @@ MainWindow::~MainWindow()
 
 // https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyBQ1Azp81TRIgb68qR-Msc2S2ZrJzDvDUM
 //     &part=snippet,contentDetails,statistics,status
-
-void MainWindow::test()
+//------------------------------------------------------------------------------
+void MainWindow::load_stat()
+{
+  load_channel("UC_x5XG1OV2P6uZZ5FSM9Ttw");
+  load_channel("UC_ehNByPcItZU3pXL-4skUA");
+}
+//------------------------------------------------------------------------------
+void MainWindow::load_channel(QString aID)
 {
   QUrl url("https://www.googleapis.com/youtube/v3/channels/");
 
   QUrlQuery query;
-  query.addQueryItem("id","UC_x5XG1OV2P6uZZ5FSM9Ttw");
-  query.addQueryItem("part","snippet,contentDetails,statistics");
-  query.addQueryItem("key","AIzaSyBQ1Azp81TRIgb68qR-Msc2S2ZrJzDvDUM");
+  query.addQueryItem("id",   aID);
+  query.addQueryItem("part", "snippet,contentDetails,statistics");
+  query.addQueryItem("key",  "AIzaSyBQ1Azp81TRIgb68qR-Msc2S2ZrJzDvDUM");
   url.setQuery(query);
+
+  auto pnr = networkManager.get(QNetworkRequest(url));
+
+  mChannels.push_back({false, pnr, aID,{},{}});
 
   connect(&networkManager, SIGNAL(finished(QNetworkReply*)),
           this,            SLOT(onResult(QNetworkReply*)));
 
-  qWarning() << url.toString();
-
-  networkManager.get(QNetworkRequest(url));
+  // qWarning() << url.toString();
 }
-
-
+//------------------------------------------------------------------------------
 void MainWindow::onResult(QNetworkReply *apReply)
 {
-  QString data = (QString) apReply->readAll();
+  for(int i = 0; i < mChannels.size(); ++i)
+  {
+    if(mChannels[i].pNetworkReply == apReply)
+    {
+      QString data = (QString) apReply->readAll();
 
-  QJsonDocument jsonDoc    = QJsonDocument::fromJson(data.toUtf8());
-  QJsonObject   jsonObject = jsonDoc.object();
+      QJsonDocument jsonDoc    = QJsonDocument::fromJson(data.toUtf8());
+      QJsonObject   jsonObject = jsonDoc.object();
+      QVariantMap   vmap       = jsonObject.toVariantMap();
 
-  QVariantMap vmap = jsonObject.toVariantMap();
-
-  auto keys     = vmap.keys();
-  auto kind     = vmap["kind"].toString();
-  auto etag     = vmap["etag"].toString();
-  auto pageInfo = vmap["pageInfo"].toMap();
-
-  auto item_0    = vmap["items"].toList().at(0);
-  auto statistic = item_0.toMap()["statistics"];
-
-  QJsonArray jsonArray  = jsonObject["items"].toArray();
+      if(!vmap.empty())
+      {
+        fill_ytStatistic(mChannels[i].statistic, get_statistic_map(vmap));
+        fill_ytThumbs(mChannels[i].thumbs, get_thumbnails_map(vmap));
+        mChannels[i].isLoaded = true;
+      }
+    }
+  }
+  //auto keys     = vmap.keys();
+  //auto kind     = vmap["kind"].toString();
+  //auto etag     = vmap["etag"].toString();
+  //auto pageInfo = vmap["pageInfo"].toMap();
+  //QJsonArray jsonArray  = jsonObject["items"].toArray();
 }
 
 
@@ -83,53 +169,63 @@ void MainWindow::onResult(QNetworkReply *apReply)
   "totalResults": 1,
   "resultsPerPage": 1
  },
- "items": [
+  "items": [
   {
-   "kind": "youtube#channel",
-   "etag": "\"RmznBCICv9YtgWaaa_nWDIH1_GM/x6Vn-y_MrojfUvUS4XjSIu_PZRc\"",
-   "id": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
-   "snippet": {
-    "title": "Google Developers",
-    "description": "The Google Developers channel features talks from events, educational series, best practices, tips, and the latest updates across our products and platforms.",
-    "customUrl": "googlecode",
-    "publishedAt": "2007-08-23T00:34:43.000Z",
-    "thumbnails": {
-     "default": {
-      "url": "https://yt3.ggpht.com/-Fgp8KFpgQqE/AAAAAAAAAAI/AAAAAAAAAAA/Wyh1vV5Up0I/s88-c-k-no-mo-rj-c0xffffff/photo.jpg",
-      "width": 88,
-      "height": 88
-     },
-     "medium": {
-      "url": "https://yt3.ggpht.com/-Fgp8KFpgQqE/AAAAAAAAAAI/AAAAAAAAAAA/Wyh1vV5Up0I/s240-c-k-no-mo-rj-c0xffffff/photo.jpg",
-      "width": 240,
-      "height": 240
-     },
-     "high": {
-      "url": "https://yt3.ggpht.com/-Fgp8KFpgQqE/AAAAAAAAAAI/AAAAAAAAAAA/Wyh1vV5Up0I/s800-c-k-no-mo-rj-c0xffffff/photo.jpg",
-      "width": 800,
-      "height": 800
-     }
+    "kind": "youtube#channel",
+    "etag": "\"RmznBCICv9YtgWaaa_nWDIH1_GM/x6Vn-y_MrojfUvUS4XjSIu_PZRc\"",
+    "id": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+    "snippet":
+    {
+      "title": "Google Developers",
+      "description": "The Google Developers ...",
+      "customUrl": "googlecode",
+      "publishedAt": "2007-08-23T00:34:43.000Z",
+
+      "thumbnails":
+      {
+        "default":
+        {
+          "url": "https://yt3.ggpht.com/-Fgp8K ...",
+          "width": 88,
+          "height": 88
+        },
+        "medium":
+        {
+          "url": "https://yt3.ggpht.com/-Fgp8KF ...",
+          "width": 240,
+          "height": 240
+        },
+        "high":
+        {
+          "url": "https://yt3.ggpht.com/-Fgp8KFp ...",
+          "width": 800,
+          "height": 800
+        }
+      },
+      "localized":
+      {
+        "title": "Google Developers",
+        "description": "The Google Developers channel ..."
+      }
     },
-    "localized": {
-     "title": "Google Developers",
-     "description": "The Google Developers channel features talks from events, educational series, best practices, tips, and the latest updates across our products and platforms."
+  "contentDetails":
+  {
+    "relatedPlaylists":
+    {
+      "uploads": "UU_x5XG1OV2P6uZZ5FSM9Ttw",
+      "watchHistory": "HL",
+      "watchLater": "WL"
     }
-   },
-   "contentDetails": {
-    "relatedPlaylists": {
-     "uploads": "UU_x5XG1OV2P6uZZ5FSM9Ttw",
-     "watchHistory": "HL",
-     "watchLater": "WL"
-    }
-   },
-   "statistics": {
+  },
+  "statistics":
+  {
     "viewCount": "130255233",
     "commentCount": "393",
     "subscriberCount": "1365920",
     "hiddenSubscriberCount": false,
     "videoCount": "4601"
-   }
   }
+}
  ]
 }
 */
