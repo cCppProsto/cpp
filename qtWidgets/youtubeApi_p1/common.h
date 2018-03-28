@@ -2,7 +2,9 @@
 #define COMMON_H
 
 #include <QString>
+#include <QPixmap>
 #include <QNetworkReply>
+#include <QNetworkAccessManager>
 
 struct ytStatistic
 {
@@ -29,11 +31,14 @@ struct ytThumbnails
 
 struct ytChannel
 {
-  bool          isLoaded{false};
-  QNetworkReply *pNetworkReply;
-  QString       id;
-  ytStatistic   statistic;
-  ytThumbnails  thumbs;
+  bool                   isLoaded{false};
+  bool                   isThumbLoaded{false};
+  QString                id;
+  ytStatistic            statistic;
+  ytThumbnails           thumbs;
+  QPixmap                mThumbs;
+  QNetworkAccessManager *mpNetManager{nullptr};
+  QNetworkReply         *pNetworkReply{nullptr};
 };
 
 

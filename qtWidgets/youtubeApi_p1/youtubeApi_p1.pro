@@ -12,14 +12,14 @@ CONFIG += c++1z
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    listviewmodel.cpp \
-    listviewdelegate.cpp
+    listviewdelegate.cpp \
+    channel.cpp
 
 HEADERS += \
         mainwindow.h \
     common.h \
-    listviewmodel.hpp \
-    listviewdelegate.hpp
+    listviewdelegate.hpp \
+    channel.hpp
 
 FORMS += \
         mainwindow.ui
