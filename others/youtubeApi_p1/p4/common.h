@@ -29,17 +29,5 @@ struct ytThumbnails
   QString high_url;
 };
 
-struct ytChannel
-{
-  bool                   isLoaded{false};
-  bool                   isThumbLoaded{false};
-  QString                id;
-  ytStatistic            statistic;
-  ytThumbnails           thumbs;
-  QPixmap                mThumbs;
-  QNetworkAccessManager *mpNetManager{nullptr};
-  QNetworkReply         *pNetworkReply{nullptr};
-};
-
 
 #endif // COMMON_H

@@ -1,12 +1,12 @@
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include <QObject>
-#include <QPixmap>
 #include <memory>
-#include <string>
-#include <QNetworkAccessManager>
 
+#include <QUrl>
+#include <QUrlQuery>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 #include "common.h"
 
 class channel : public QObject
@@ -19,7 +19,6 @@ public:
   void fetchData();
 
   const QPixmap &pixmap()const;
-
   const bool &isLoaded()const;
   const bool &thumbIsLoaded()const;
 
@@ -28,12 +27,12 @@ private slots:
   void thumb_result(QNetworkReply*);
 
 private:
-  bool          mIsLoaded{false};
-  bool          mIsThumbLoaded{false};
-  std::string   mId;
-  ytStatistic   mStatistic;
-  ytThumbnails  mThumbsInfo;
-  QPixmap       mThumbs;
+  bool         mIsLoaded{false};
+  bool         mIsThumbLoaded{false};
+  std::string  mId;
+  ytStatistic  mStatistic;
+  ytThumbnails mThumbsInfo;
+  QPixmap      mThumbs;
 
   std::unique_ptr<QNetworkAccessManager> mpNetManager{nullptr};
 };

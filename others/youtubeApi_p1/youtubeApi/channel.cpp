@@ -1,9 +1,79 @@
-#include "channel.hpp"
-
-#include <QUrlQuery>
+#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+
+#include "channel.hpp"
+
+/*
+{
+ "kind": "youtube#channelListResponse",
+ "etag": "\"RmznBCICv9YtgWaaa_nWDIH1_GM/cZnF4vvOg72FSt8eEeDmBu9kZQI\"",
+ "pageInfo": {
+  "totalResults": 1,
+  "resultsPerPage": 1
+ },
+  "items":
+[
+  {
+    "kind": "youtube#channel",
+    "etag": "\"RmznBCICv9YtgWaaa_nWDIH1_GM/x6Vn-y_MrojfUvUS4XjSIu_PZRc\"",
+    "id": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+    "snippet":
+    {
+      "title": "Google Developers",
+      "description": "The Google Developers ...",
+      "customUrl": "googlecode",
+      "publishedAt": "2007-08-23T00:34:43.000Z",
+
+      "thumbnails":
+      {
+        "default":
+        {
+          "url": "https://yt3.ggpht.com/-Fgp8K ...",
+          "width": 88,
+          "height": 88
+        },
+        "medium":
+        {
+          "url": "https://yt3.ggpht.com/-Fgp8KF ...",
+          "width": 240,
+          "height": 240
+        },
+        "high":
+        {
+          "url": "https://yt3.ggpht.com/-Fgp8KFp ...",
+          "width": 800,
+          "height": 800
+        }
+      },
+      "localized":
+      {
+        "title": "Google Developers",
+        "description": "The Google Developers channel ..."
+      }
+    },
+  "contentDetails":
+  {
+    "relatedPlaylists":
+    {
+      "uploads": "UU_x5XG1OV2P6uZZ5FSM9Ttw",
+      "watchHistory": "HL",
+      "watchLater": "WL"
+    }
+  },
+  "statistics":
+  {
+    "viewCount": "130255233",
+    "commentCount": "393",
+    "subscriberCount": "1365920",
+    "hiddenSubscriberCount": false,
+    "videoCount": "4601"
+  }
+}
+ ]
+}
+*/
 
 //------------------------------------------------------------------------------
 static auto get_statistic_map(const QVariantMap &aMap)
@@ -74,10 +144,13 @@ void channel::fetchData()
   QUrl url("https://www.googleapis.com/youtube/v3/channels/");
 
   QUrlQuery query;
-  query.addQueryItem("id",   QString(mId.c_str()));
+  query.addQueryItem("id", QString(mId.c_str()));
+  query.addQueryItem("key", "AIzaSyBQ1Azp81TRIgb68qR-Msc2S2ZrJzDvDUM");
   query.addQueryItem("part", "snippet,contentDetails,statistics");
-  query.addQueryItem("key",  "AIzaSyBQ1Azp81TRIgb68qR-Msc2S2ZrJzDvDUM");
+
   url.setQuery(query);
+
+  qWarning() << url.toString();
 
   connect(mpNetManager.get(), SIGNAL(finished(QNetworkReply*)),
           this,               SLOT(fetch_result(QNetworkReply*)));
@@ -93,7 +166,7 @@ void channel::fetch_result(QNetworkReply *apReply)
   QJsonObject   jsonObject = jsonDoc.object();
   QVariantMap   vmap       = jsonObject.toVariantMap();
 
-  if(!vmap.empty())
+  if(!vmap.isEmpty())
   {
     fill_ytStatistic(mStatistic, get_statistic_map(vmap));
     fill_ytThumbs(mThumbsInfo,   get_thumbnails_map(vmap));
@@ -111,17 +184,15 @@ void channel::fetch_result(QNetworkReply *apReply)
 
     mpNetManager.get()->get(request);
   }
-
-  //auto keys     = vmap.keys();
-  //auto kind     = vmap["kind"].toString();
-  //auto etag     = vmap["etag"].toString();
-  //auto pageInfo = vmap["pageInfo"].toMap();
-  //QJsonArray jsonArray  = jsonObject["items"].toArray();
 }
 //------------------------------------------------------------------------------
 void channel::thumb_result(QNetworkReply *apReply)
 {
   auto e = apReply->error();
+
+  if(e != QNetworkReply::NoError)
+    return;
+
   auto res = apReply->readAll();
 
   if(res.size() > 0)
@@ -129,6 +200,11 @@ void channel::thumb_result(QNetworkReply *apReply)
     mThumbs.loadFromData(res);
     mIsThumbLoaded = true;
   }
+}
+//------------------------------------------------------------------------------
+const QPixmap &channel::pixmap()const
+{
+  return mThumbs;
 }
 //------------------------------------------------------------------------------
 const bool &channel::isLoaded()const
@@ -140,9 +216,24 @@ const bool &channel::thumbIsLoaded()const
 {
   return mIsThumbLoaded;
 }
-//------------------------------------------------------------------------------
-const QPixmap &channel::pixmap()const
-{
-  return mThumbs;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

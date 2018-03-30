@@ -3,7 +3,6 @@
 #include <vector>
 #include <array>
 
-
 using namespace std;
 
 namespace example_a
@@ -28,12 +27,15 @@ namespace example_b
     T mVal;
   };
 
-  S(char const*) -> S<string>;
+  S(const char *) -> S<string>;
+  S(float) -> S<int>;
 
   void example()
   {
     S i(1);
     S s("hello");
+    S f(1.f);
+    S d(1.);
   }
 }
 
@@ -42,6 +44,8 @@ namespace example_c
   template<typename T, typename U>
   struct S
   {
+    //S(T t, U u) { }
+
     T first;
     U second;
   };
@@ -50,10 +54,11 @@ namespace example_c
 
   void example()
   {
+    S _s = {1, 2};
     S sa = { 42, "hello", };
     S sb = { "hello", "World" };
-    cout << sa.first << sa.second << endl;
-    cout << sb.first << sb.second << endl;
+    //cout << sa.first << sa.second << endl;
+    //cout << sb.first << sb.second << endl;
   }
 }
 
