@@ -4,6 +4,7 @@
 #include "baseappinst.hpp"
 #include "mainmenu.hpp"
 #include "example_1.hpp"
+#include "example_2.hpp"
 
 using namespace cpp_prosto::application;
 
@@ -39,6 +40,7 @@ private:
 
 private:
   example_1 mExample1;
+  example_2 mExample2;
   Menu        mMenu;
 };
 

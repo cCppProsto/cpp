@@ -373,6 +373,7 @@ void application::app_draw()
     }
     case eMenuState::EXAMPLE2:
     {
+      mExample2.draw();
       break;
     }
     case eMenuState::EXIT:

@@ -23,7 +23,9 @@ SOURCES += main.cpp \
     ../../../tools_src/graphical_library/color.cpp \
     ../../../tools_src/graphical_library/gpcircle.cpp \
     ../../../tools_src/graphical_library/gpline.cpp \
-    ../../../tools_src/graphical_library/gprimitive.cpp
+    ../../../tools_src/graphical_library/gprimitive.cpp \
+    ../../../tools_src/graphical_library/gpnumber.cpp \
+    example_2.cpp
 
 HEADERS += \
     ../../../tools_src/baseappinst.hpp \
@@ -36,7 +38,10 @@ HEADERS += \
     ../../../tools_src/graphical_library/color.hpp \
     ../../../tools_src/graphical_library/gpcircle.hpp \
     ../../../tools_src/graphical_library/gpline.hpp \
-    ../../../tools_src/graphical_library/gprimitive.hpp
+    ../../../tools_src/graphical_library/gprimitive.hpp \
+    ../../../tools_src/graphical_library/gpnumber.hpp \
+    example_2.hpp \
+    common.h
 
 QT   += opengl
 
