@@ -14,7 +14,6 @@ point::point(float aX, float aY)
   :mX{aX}
   ,mY{aY}
 {
-
 }
 //------------------------------------------------------------------------------
 void point::move(float aDx, float aDy)
