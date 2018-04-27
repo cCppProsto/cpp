@@ -12,12 +12,22 @@ using namespace cpp_prosto::graphical;
 struct  object
 {
   object();
+  void setPosition(geo2D::point);
   void update();
   void draw();
 
   void setWind(geo2D::force);
   void setGravity(geo2D::force);
+
+  void removeWind();
+  void removeGravity();
+
   void setVelocity(geo2D::vector);
+  void setFriction(float);
+
+  void bottom_border_collision();
+
+  const geo2D::point &position()const;
 
 private:
   void _move_draw_objects();

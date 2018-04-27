@@ -127,19 +127,53 @@ void menuApp::draw_menu()
 //------------------------------------------------------------------------------
 void menuApp::app_init()
 {
-  mObj.setGravity(geo2D::force(1.f, 180));
-  mObj.setVelocity(geo2D::vector({3,3}));
+  mObj.setPosition({500, 20});
+  //init_a();
+  //init_b();
+  //init_c();
+  init_d();
+}
+//------------------------------------------------------------------------------
+void menuApp::init_a()
+{
+  mObj.setVelocity(geo2D::vector({2.f, 4.f}));
+}
+//------------------------------------------------------------------------------
+void menuApp::init_b()
+{
+  mObj.setVelocity(geo2D::vector({4.f, 8.f}));
+  mObj.setFriction(0.1f);
+}
+//------------------------------------------------------------------------------
+void menuApp::init_c()
+{
+  mObj.setGravity(geo2D::force(0.04, 180));
+}
+//------------------------------------------------------------------------------
+void menuApp::init_d()
+{
+  mObj.setPosition({100, 700});
+  mObj.setVelocity(geo2D::vector({10.f, -10.f}));
+  mObj.setGravity(geo2D::force(0.4, 180));
 }
 //------------------------------------------------------------------------------
 void menuApp::v_application()
 {
-  app_processing();
+  if(!mIsPause)
+  {
+    app_processing();
+  }
   app_draw();
 }
 //------------------------------------------------------------------------------
 void menuApp::app_processing()
 {
   mObj.update();
+
+  if(mObj.position().y() > 750)
+  {
+    mObj.bottom_border_collision();
+  }
 }
 //------------------------------------------------------------------------------
 void menuApp::app_draw()
@@ -187,6 +221,33 @@ void menuApp::app_key_processing(int aKey, int aAction)
   {
     switch(aKey)
     {
+      case GLFW_KEY_KP_ADD:
+      {
+        mObj.setWind(geo2D::force(0.05, 90));
+        break;
+      }
+      case GLFW_KEY_KP_DIVIDE:
+      {
+        mObj.setWind(geo2D::force(0.05, 270));
+        break;
+      }
+      case GLFW_KEY_KP_MULTIPLY:
+      {
+        mObj.removeWind();
+        break;
+      }
+      case GLFW_KEY_1:
+      {
+        mObj.setVelocity(geo2D::vector({4,4}));
+        break;
+      }
+      case GLFW_KEY_3:
+      {
+        mObj.removeGravity();
+        //mObj.setVelocity(geo2D::vector({4,4}));
+        //mObj.
+        break;
+      }
       case GLFW_KEY_UP:
       {
         break;

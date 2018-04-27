@@ -44,8 +44,13 @@ private:
   void app_processing();
   void app_draw();
 
+  void init_a();
+  void init_b();
+  void init_c();
+  void init_d();
+
 private:
-  bool mIsPause{false};
+  bool mIsPause{true};
 
   eMenuState  mMenuState;
   Menu        mMenu;
