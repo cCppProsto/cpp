@@ -10,6 +10,8 @@ SUBDIRS += \
     optional_any_variant \
     fallthrough \
     nodiscard \
-    maybe_unused
+    maybe_unused \
+    decomposing \
+    tuple_apply
 
 
