@@ -138,7 +138,6 @@ void curl_downloader::load(std::string aUrl)
   for(unsigned i = 0; i < THREAD_COUNT; ++i)
   {
     threads[i].join();
-    threads[i].detach();
   }
   auto t2 = get_time();
 
