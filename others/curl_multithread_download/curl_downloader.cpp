@@ -11,7 +11,7 @@
 #include "curl_downloader.hpp"
 #include "curl_tool.hpp"
 
-const unsigned THREAD_COUNT { 16 };
+const unsigned THREAD_COUNT { 8 };
 
 
 std::chrono::high_resolution_clock::time_point get_time()
@@ -80,6 +80,10 @@ void curl_downloader::load(std::string aUrl)
     CURL        *curl{nullptr};
 
     sCallback_data data{partID, file, &mutex};
+
+    //mutex.lock();
+    // some actions
+    //mutex.unlock();
 
     curl = curl_easy_init();
     if(curl)
