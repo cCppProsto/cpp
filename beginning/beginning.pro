@@ -23,7 +23,8 @@ SUBDIRS += \
     cpp_exc \
     rvalue_move \
     parallel_p1 \
-    threading
+    threading \
+    std_forward
 
 HEADERS += \
     ../../tools_src/graphical_library/gpnumber.hpp

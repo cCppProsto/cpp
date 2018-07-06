@@ -10,4 +10,5 @@ SOURCES += main.cpp \
     abstract_factory.cpp \
     singleton.cpp \
     builder.cpp \
-    prototype.cpp
+    prototype.cpp \
+    object_pool.cpp

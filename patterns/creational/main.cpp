@@ -3,6 +3,7 @@
 #include "singleton.cpp"
 #include "builder.cpp"
 #include "prototype.cpp"
+#include "object_pool.cpp"
 
 #include <iostream>
 using namespace std;
@@ -15,6 +16,8 @@ int main()
   //creational_abstract_factory::abstract_factory_main();
   //creational_singleton::singleton_main();
   //creational_builder::builder_main();
-  creational_prototype::prototype_main();
+  //creational_prototype::prototype_main();
+  creational_object_pool::object_pool_main();
+
   return 0;
 }
