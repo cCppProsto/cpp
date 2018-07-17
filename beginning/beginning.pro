@@ -24,7 +24,9 @@ SUBDIRS += \
     rvalue_move \
     parallel_p1 \
     threading \
-    std_forward
+    std_forward \
+    std_atomic \
+    std_thread_task_a
 
 HEADERS += \
     ../../tools_src/graphical_library/gpnumber.hpp
