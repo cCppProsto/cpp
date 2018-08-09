@@ -70,7 +70,7 @@ namespace async_example_2
 
     std::queue<std::future<bool>> queue;
 
-    for(unsigned i = 0; i < 10; ++i)
+    for(unsigned i = 0; i < 100; ++i)
       queue.push(std::async(std::launch::async, f_task, i));
 
     bool res = false;
@@ -93,8 +93,8 @@ namespace packaged_task_example_1
     m.lock();
     std::cout << "("
               << this_thread::get_id()
-              << ""
-              << "Task "
+              << ")"
+              << " Task "
               << aTaskID
               << " completed" << std::endl;
     m.unlock();
@@ -104,6 +104,8 @@ namespace packaged_task_example_1
 
   void test()
   {
+    std::cout << "main id: " << this_thread::get_id() << std::endl;
+
     std::queue<std::packaged_task<bool(unsigned)> > _queue;
 
     for(unsigned i = 0; i < 1000; ++i)
@@ -128,8 +130,8 @@ namespace packaged_task_example_1
 int main()
 {
   //async_example_1::test();
-  async_example_2::test();
-  //packaged_task_example_1::test();
+  //async_example_2::test();
+  packaged_task_example_1::test();
 
   return 0;
 }

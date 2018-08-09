@@ -216,14 +216,8 @@ int main()
   path = path / hash;
 
 
-  bool is_exist = fs::exists(path);
-  if(!is_exist)
-  {
-    file.open(path.c_str(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
-    fs::resize_file(path.c_str(), file_size);
-  }
-  else
-    file.open(path.c_str(), std::ios::binary | std::ios::out | std::ios::in);
+  file.open(path.c_str(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+  fs::resize_file(path.c_str(), file_size);
 
   size_t chunk_count = (file_size / chunk_size) + 1;
 
@@ -244,8 +238,8 @@ int main()
     else
       end = (start + chunk_size) - 1;
     range = std::to_string(start) + "-" + std::to_string(end);
-    task_queue.push(std::async(download_ns::download, range, i));
-    //task_queue.push(std::async(std::launch::async, download_ns::download, range, i));
+    //task_queue.push(std::async(download_ns::download, range, i));
+    task_queue.push(std::async(std::launch::async, download_ns::download, range, i));
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 
