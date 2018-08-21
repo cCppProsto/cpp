@@ -27,7 +27,8 @@ SUBDIRS += \
     std_forward \
     std_atomic \
     std_thread_task_a \
-    thread_condition_variable
+    thread_condition_variable \
+    assert
 
 HEADERS += \
     ../../tools_src/graphical_library/gpnumber.hpp

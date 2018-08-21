@@ -130,8 +130,8 @@ namespace packaged_task_example_1
 int main()
 {
   //async_example_1::test();
-  //async_example_2::test();
-  packaged_task_example_1::test();
+  async_example_2::test();
+  //packaged_task_example_1::test();
 
   return 0;
 }
