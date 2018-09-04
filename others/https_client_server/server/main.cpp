@@ -13,7 +13,6 @@ namespace fs = std::experimental::filesystem;
 // generate certificate
 // sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout selfsigned.key -out selfsigned.crt
 
-
 // https://aws.amazon.com/ru/getting-started/tutorials/get-a-domain/
 // https://aws.amazon.com/ru/getting-started/tutorials/
 // https://aws.amazon.com/ru/getting-started/tutorials/launch-a-virtual-machine/
