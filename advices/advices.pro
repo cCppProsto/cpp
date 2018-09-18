@@ -6,4 +6,6 @@ SUBDIRS += \
     advice_11 \
     stl_advice_1 \
     advice_13 \
-    advice_14
+    advice_14 \
+    advice_15 \
+    advice_16

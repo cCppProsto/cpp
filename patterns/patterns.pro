@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     creational \
-    behavior
+    behavior \
+    structural
