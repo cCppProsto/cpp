@@ -5,4 +5,5 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp \
-    observer.cpp
+    observer.cpp \
+    command.cpp
