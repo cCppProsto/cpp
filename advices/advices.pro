@@ -8,4 +8,6 @@ SUBDIRS += \
     advice_13 \
     advice_14 \
     advice_15 \
-    advice_16
+    advice_16 \
+    advice_17 \
+    advice_18

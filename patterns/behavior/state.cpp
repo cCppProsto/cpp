@@ -5,6 +5,8 @@
 namespace behaviour_state
 {
 
+// https://martalex.gitbooks.io/gameprogrammingpatterns/content/chapter-2/2.6-state.html
+
 namespace sample_1
 {
   //----------------------------------------------------------------------------
@@ -181,7 +183,7 @@ namespace sample_4
     {
       if (input == eButtons::PRESS_B)
       {
-        if (!isJumping_)
+        if (!isJumping_ && !isDucking_)
         {
           isJumping_ = true;
           yVelocity_ = eActivity::JUMP_VELOCITY;
