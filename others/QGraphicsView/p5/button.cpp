@@ -8,8 +8,8 @@
 
 button::button()
 {
-  setAcceptHoverEvents(true);
   setAcceptedMouseButtons(Qt::LeftButton);
+  setAcceptHoverEvents(true);
 }
 //------------------------------------------------------------------------------
 QRectF button::boundingRect() const
@@ -17,14 +17,42 @@ QRectF button::boundingRect() const
   return QRectF(0, 0, mWidth, mHeigth);
 }
 //------------------------------------------------------------------------------
+void button::enableMouseMoving()
+{
+  mIsMovable = true;
+}
+//------------------------------------------------------------------------------
+void button::disableMouseMoving()
+{
+  mIsMovable = false;
+}
+//------------------------------------------------------------------------------
+void button::setImage(QString aPath)
+{
+  mPixMap.load(aPath);
+
+  mWidth  = mPixMap.width();
+  mHeigth = mPixMap.height();
+}
+//------------------------------------------------------------------------------
+void button::setGeometry(int aWidth, int aHeight)
+{
+  mWidth  = aWidth;
+  mHeigth = aHeight;
+}
+//------------------------------------------------------------------------------
 void button::paint(QPainter *painter,
                    const QStyleOptionGraphicsItem */*option*/,
                    QWidget */*widget*/)
 {
+
+
+
   if(mHover)
     painter->setPen(QColor(255, 0, 0));
 
   QList<QGraphicsItem*> l = scene()->items();
+
   foreach(QGraphicsItem *item, l)
   {
     if(item == this)
@@ -39,29 +67,6 @@ void button::paint(QPainter *painter,
 
   painter->drawPixmap(0,0, mWidth, mHeigth, mPixMap);
   painter->drawRoundedRect(0, 0, mWidth, mHeigth, 5, 5);
-}
-//------------------------------------------------------------------------------
-void button::enableMouseMoving()
-{
-  mIsMovable = true;
-}
-//------------------------------------------------------------------------------
-void button::disableMouseMoving()
-{
-  mIsMovable = false;
-}
-//------------------------------------------------------------------------------
-void button::setGeometry(int aWidth, int aHeight)
-{
-  mWidth  = aWidth;
-  mHeigth = aHeight;
-}
-//------------------------------------------------------------------------------
-void button::setImage(QString aPath)
-{
-  mPixMap.load(aPath);
-  mWidth  = mPixMap.width();
-  mHeigth = mPixMap.height();
 }
 //------------------------------------------------------------------------------
 void button::hoverEnterEvent(QGraphicsSceneHoverEvent*)
@@ -91,6 +96,7 @@ void button::mouseMoveEvent(QGraphicsSceneMouseEvent *aEvent)
     int distance = ((aEvent->pos() - mStartMovePos)).manhattanLength();
     if(distance > QApplication::startDragDistance())
     {
+
       QPointF np = mapToScene(aEvent->pos() - mStartMovePos);
 
       if( (np.x() < 0) || (np.y() < 0) )

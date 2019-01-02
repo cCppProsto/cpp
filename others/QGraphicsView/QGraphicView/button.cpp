@@ -1,5 +1,4 @@
 #include "button.hpp"
-
 #include <QDebug>
 #include <QPainter>
 #include <QEvent>
@@ -12,6 +11,11 @@ button::button()
 {
   setAcceptedMouseButtons(Qt::LeftButton);
   setAcceptHoverEvents(true);
+}
+//------------------------------------------------------------------------------
+QRectF button::boundingRect() const
+{
+  return QRectF(0, 0, mWidth, mHeight);
 }
 //------------------------------------------------------------------------------
 void button::enableMouseMoving()
@@ -36,11 +40,6 @@ void button::setGeometry(int aWidth, int aHeight)
 {
   mWidth  = aWidth;
   mHeight = aHeight;
-}
-//------------------------------------------------------------------------------
-QRectF button::boundingRect() const
-{
-   return QRectF(0, 0, mWidth, mHeight);
 }
 //------------------------------------------------------------------------------
 void button::paint(QPainter *painter,
