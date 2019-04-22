@@ -13,4 +13,5 @@ SUBDIRS += \
     advice_18 \
     advice_19 \
     advice_20 \
-    advice_23
+    advice_23 \
+    advice_24

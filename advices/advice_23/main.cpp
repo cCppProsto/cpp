@@ -6,123 +6,307 @@
 
 using namespace std;
 
-class RCString
+
+namespace example_1
 {
-public:
-  //----------------------------------------------------------------------------
-  RCString(const char *initValue = "")
-    :mp_value{new StringValue{initValue}}
+  class String
   {
-  }
-  //----------------------------------------------------------------------------
-  RCString(const RCString &rhs)
-  {
-    if(rhs.mp_value->shareable)
-    {
-      mp_value = rhs.mp_value;
-      ++mp_value->refCount;
-    }
-    else
-    {
-      mp_value = new StringValue{rhs.mp_value->pdata};
-    }
-  }
-  //----------------------------------------------------------------------------
-  RCString &operator=(const RCString &rhs)
-  {
-    if(mp_value == rhs.mp_value)
-      return *this;
-
-    if(rhs.mp_value->shareable)
-    {
-      if(mp_value->refCount > 0)
-        mp_value->refCount--;
-
-      if(mp_value->refCount == 0)
+    public:
+      String(const char *initValue = "")
       {
-        delete mp_value;
-        mp_value = nullptr;
+        data = new char[strlen(initValue) + 1];
+        strcpy(data, initValue);
       }
 
-      mp_value = rhs.mp_value;
-      mp_value->refCount++;
-    }
-    else
-    {
-      delete mp_value;
-      mp_value = new StringValue{mp_value->pdata};
-    }
-    return *this;
-  }
-  //----------------------------------------------------------------------------
-  const char &operator[](int index)const
-  {
-    return mp_value->pdata[index];
-  }
-  //----------------------------------------------------------------------------
-  char &operator[](int index)
-  {
-    if(mp_value->refCount > 1)
-    {
-      mp_value->refCount--;
-      mp_value = new StringValue{mp_value->pdata};
-    }
-    mp_value->shareable = false;
-    return mp_value->pdata[index];
-  }
-  //----------------------------------------------------------------------------
-  ~RCString()
-  {
-    if(mp_value != nullptr)
-    {
-      if(mp_value->refCount > 0)
-        mp_value->refCount--;
-
-      if(mp_value->refCount == 0)
+      String(const String &rhs)
       {
-        delete mp_value;
-        mp_value = nullptr;
+        data = new char [strlen(rhs.data) + 1];
       }
-    }
-  }
 
-private:
-  struct StringValue
+      String &operator=(const String &rhs)
+      {
+        if(this == &rhs)
+          return *this;
+
+        data = new char[strlen(rhs.data) + 1];
+        strcpy(data, rhs.data);
+        return *this;
+      }
+
+      ~String()
+      {
+        delete [] data;
+      }
+
+    private:
+      char *data{nullptr};
+  };
+  void test()
   {
-    //--------------------------------------------------------------------------
-    StringValue(const char *initValue)
-      :refCount{1}
-    {
-      pdata = new char[std::strlen(initValue) + 1];
-      std::strcpy(pdata, initValue);
-    }
-    //--------------------------------------------------------------------------
-    ~StringValue()
-    {
-      delete [] pdata;
-    }
 
-    int refCount{0};
-    bool shareable{true};
-    char *pdata{nullptr};
+  }
+}
+
+namespace example_2
+{
+  class String
+  {
+    struct StringValue
+    {
+      StringValue(const char *initValue)
+        :refCount{1}
+      {
+        data = new char[strlen(initValue) + 1];
+        strcpy(data, initValue);
+      }
+
+      ~StringValue()
+      {
+        delete [] data;
+      }
+
+      int refCount{0};
+      char *data{nullptr};
+    };
+
+    public:
+      String(const char *initValue = "")
+        :value{new StringValue(initValue)}
+      {
+      }
+
+      String(const String &rhs)
+        :value{rhs.value}
+      {
+        ++value->refCount;
+      }
+
+      String & operator=(const String &rhs)
+      {
+        if(value == rhs.value)
+          return *this;
+
+        if(--value->refCount == 0)
+          delete value;
+
+        value = rhs.value;
+        ++value->refCount;
+        return *this;
+      }
+
+      ~String()
+      {
+        if(--value->refCount == 0)
+          delete value;
+      }
+
+    private:
+      StringValue *value;
   };
 
-  StringValue *mp_value{nullptr};
-};
+  void test()
+  {
+
+  }
+}
+
+namespace example_3
+{
+  class String
+  {
+    struct StringValue
+    {
+      StringValue(const char *initValue)
+        :refCount{1}
+      {
+        data = new char[strlen(initValue) + 1];
+        strcpy(data, initValue);
+      }
+
+      ~StringValue()
+      {
+        delete [] data;
+      }
+
+      int refCount{0};
+      char *data{nullptr};
+    };
+
+    public:
+      String(const char *initValue = "")
+        :value{new StringValue(initValue)}
+      {
+      }
+
+      String(const String &rhs)
+        :value{rhs.value}
+      {
+        ++value->refCount;
+      }
+
+      String & operator=(const String &rhs)
+      {
+        if(value == rhs.value)
+          return *this;
+
+        if(--value->refCount == 0)
+          delete value;
+
+        value = rhs.value;
+        ++value->refCount;
+        return *this;
+      }
+
+      char &operator[](int index)
+      {
+        if(value->refCount > 1)
+        {
+          --value->refCount;
+          value = new StringValue(value->data);
+        }
+        return value->data[index];
+      }
+
+      const char &operator[](int index)const
+      {
+        return value->data[index];
+      }
+
+      ~String()
+      {
+        if(--value->refCount == 0)
+          delete value;
+      }
+
+    private:
+      StringValue *value;
+  };
+
+  void test()
+  {
+    String str1("Hello!");
+    String str2(str1);
+    String str3;
+    String str4;
+    String str5;
+    str5 = str4 = str3 = str2;
+
+    str4[0] = '!';
+    std::cout << str5[0] << std::endl;
+  }
+}
+
+namespace example_4
+{
+  class String
+  {
+    struct StringValue
+    {
+      StringValue(const char *initValue)
+        :refCount{1}
+      {
+        data = new char[strlen(initValue) + 1];
+        strcpy(data, initValue);
+      }
+
+      ~StringValue()
+      {
+        delete [] data;
+      }
+
+      int refCount{0};
+      bool shareable{true};
+      char *data{nullptr};
+    };
+
+    public:
+      String(const char *initValue = "")
+        :value{new StringValue(initValue)}
+      {
+      }
+
+      String(const String &rhs)
+      {
+        if(rhs.value->shareable)
+        {
+          value = rhs.value;
+          ++value->refCount;
+        }
+        else
+        {
+          value = new StringValue{rhs.value->data};
+        }
+      }
+
+      String & operator=(const String &rhs)
+      {
+        if(value == rhs.value)
+          return *this;
+
+        if(rhs.value->shareable)
+        {
+          if(--value->refCount == 0)
+          {
+            delete value;
+            value = nullptr;
+          }
+
+          value = rhs.value;
+          value->refCount++;
+        }
+        else
+        {
+          delete value;
+          value = new StringValue(value->data);
+        }
+        return *this;
+      }
+
+      char &operator[](int index)
+      {
+        if(value->refCount > 1)
+        {
+          value->refCount--;
+          value = new StringValue{value->data};
+        }
+        value->shareable = false;
+        return value->data[index];
+      }
+
+      const char &operator[](int index)const
+      {
+        return value->data[index];
+      }
+
+      ~String()
+      {
+        if(--value->refCount == 0)
+          delete value;
+      }
+
+    private:
+      StringValue *value;
+  };
+
+  void test()
+  {
+    String str1("Hello!");
+
+    char *p = &str1[0];
+
+    String str2 = str1;
+
+    *p = '!';
+    std::cout << *p << std::endl;
+  }
+}
+
 
 int main()
 {
-  RCString str1("Hello!");
-  RCString str2(str1);
-  RCString str3;
-  str3 = str2;
-
-  char *p = &str3[1];
-
-  RCString str4 = str3;
-  *p = '!';
-  str3[1] = '1';
-  str2[0] = '?';
-
+  example_1::test();
+  example_2::test();
+  example_3::test();
+  example_4::test();
   return 0;
 }
