@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
@@ -140,42 +141,179 @@ namespace example_4
   }
 }
 
-
 namespace example_5
 {
+  class String
+  {
+    struct StringValue
+    {
+      //------------------------------------------------------------------------
+      StringValue(const char *initValue)
+        :refCount{1}
+      {
+        data = new char[strlen(initValue) + 1];
+        strcpy(data, initValue);
+      }
+      //------------------------------------------------------------------------
+      ~StringValue()
+      {
+        delete [] data;
+      }
+
+      int refCount{0};
+      bool shareable{true};
+      char *data{nullptr};
+    };
+
+    public:
+      class charProxy
+      {
+        public:
+          //--------------------------------------------------------------------
+          charProxy(String &str, int index)
+            :m_string(str)
+            ,m_charIndex(index)
+          {
+          }
+          //--------------------------------------------------------------------
+          charProxy(const charProxy &rhs)
+            :m_string(rhs.m_string)
+            ,m_charIndex(rhs.m_charIndex)
+          {
+          }
+          //--------------------------------------------------------------------
+          charProxy & operator=(const charProxy &rhs)
+          {
+            if(m_string.value->shareable)
+            {
+              m_string.value = new StringValue(m_string.value->data);
+            }
+
+            m_string.value->data[m_charIndex] = rhs.m_string.value->data[rhs.m_charIndex];
+            return *this;
+          }
+          //--------------------------------------------------------------------
+          charProxy &operator=(char c)
+          {
+            if(m_string.value->shareable)
+            {
+              m_string.value = new StringValue(m_string.value->data);
+            }
+
+            m_string.value->data[m_charIndex] = c;
+            return *this;
+          }
+          //--------------------------------------------------------------------
+          operator char()const
+          {
+            return m_string.value->data[m_charIndex];
+          }
+          //--------------------------------------------------------------------
+          char *operator&()
+          {
+            if(m_string.value->shareable)
+            {
+              m_string.value = new StringValue(m_string.value->data);
+            }
+            m_string.value->shareable = false;
+            return &(m_string.value->data[m_charIndex]);
+          }
+          //--------------------------------------------------------------------
+          const char *operator&()const
+          {
+            return &(m_string.value->data[m_charIndex]);
+          }
+        private:
+          String &m_string;
+          int     m_charIndex;
+      };
+
+    public:
+      String(const char *initValue = "")
+        :value{new StringValue(initValue)}
+      {
+      }
+      //------------------------------------------------------------------------
+      String(const String &rhs)
+      {
+        if(rhs.value->shareable)
+        {
+          value = rhs.value;
+          ++value->refCount;
+        }
+        else
+        {
+          value = new StringValue{rhs.value->data};
+        }
+      }
+      //------------------------------------------------------------------------
+      String & operator=(const String &rhs)
+      {
+        if(value == rhs.value)
+          return *this;
+
+        if(rhs.value->shareable)
+        {
+          if(--value->refCount == 0)
+          {
+            delete value;
+            value = nullptr;
+          }
+
+          value = rhs.value;
+          value->refCount++;
+        }
+        else
+        {
+          delete value;
+          value = new StringValue(value->data);
+        }
+        return *this;
+      }
+      //------------------------------------------------------------------------
+      const charProxy operator[](int index) const
+      {
+        return charProxy(const_cast<String&>(*this), index);
+      }
+      //------------------------------------------------------------------------
+      charProxy operator[](int index)
+      {
+        return charProxy(*this, index);
+      }
+      //------------------------------------------------------------------------
+      ~String()
+      {
+        if(--value->refCount == 0)
+          delete value;
+      }
+      //------------------------------------------------------------------------
+      friend class charProxy;
+    private:
+      StringValue *value;
+  };
+
   void test()
   {
+    String str1("Hello!");
+    String str2 = str1;
+    String str3 = str2;
+    String str4 = str3;
+
+    std::cout << str4[0] << std::endl;
+    std::cout << str1[0] << std::endl;
+
+    str3[0] = '!';
+    str3[2] = '!';
+
+    char *p = &str1[0];
 
   }
 }
 
-namespace example_6
-{
-  void test()
-  {
-
-  }
-}
-
-namespace example_7
-{
-  void test()
-  {
-
-  }
-}
-
-namespace example_8
-{
-  void test()
-  {
-
-  }
-}
 
 int main()
 {
   example_4::test();
-  cout << "Hello World!" << endl;
+  example_5::test();
   return 0;
 }
