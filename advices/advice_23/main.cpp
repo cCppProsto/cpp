@@ -21,6 +21,7 @@ namespace example_1
       String(const String &rhs)
       {
         data = new char [strlen(rhs.data) + 1];
+        strcpy(data, rhs.data);
       }
 
       String &operator=(const String &rhs)
@@ -106,7 +107,13 @@ namespace example_2
 
   void test()
   {
+    String str_a("Hello");
+    String str_b(str_a);
+    String str_c;
 
+    str_c = str_a;
+
+    int debug = 0;
   }
 }
 
@@ -192,7 +199,19 @@ namespace example_3
     str5 = str4 = str3 = str2;
 
     str4[0] = '!';
+
     std::cout << str5[0] << std::endl;
+
+    {
+      String str1("Hello!");
+
+      char *p = &str1[0];
+
+      String str2 = str1;
+
+      *p = '!';
+      std::cout << *p << std::endl;
+    }
   }
 }
 

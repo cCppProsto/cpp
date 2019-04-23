@@ -584,7 +584,7 @@ int main()
   //example_3::test();
   //example_4::test();
   //example_5::test();
-    example_6::test();
+  example_6::test();
 
   return 0;
 }

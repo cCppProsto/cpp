@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 
+// Мейерс С. - Наиболее эффективное использование C++ - 2000 35 рекомендаций
+// Правило 8 - Различайте значения операторов new и delete
+
 
 namespace example_1
 {
@@ -84,6 +87,7 @@ namespace example_3
     delete p;
   }
 }
+
 
 int main()
 {
