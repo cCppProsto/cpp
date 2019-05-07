@@ -17,7 +17,8 @@ namespace example_1
 
   void test()
   {
-    Array2D<int> data_1(10,20);
+    int l, c;
+    Array2D<int> data_1(l,c);
     Array2D<float> *data_2 = new Array2D<float>(10,20);
   }
 }
@@ -44,7 +45,6 @@ namespace example_2
         return res;
       }
       */
-
   };
 
   void test()

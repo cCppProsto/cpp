@@ -114,38 +114,27 @@ namespace example_2
   }
 }
 
-namespace example_3
-{
-  void test()
-  {
-  }
-}
-
-namespace example_4
-{
-  void test()
-  {
-  }
-}
-
-namespace example_5
-{
-  void test()
-  {
-  }
-}
-
-namespace example_6
-{
-  void test()
-  {
-  }
-}
-
-
 int main()
 {
-  //example_1::test();
-  example_2::test();
+  std::string str;
+
+  std::cout << str.capacity() << std::endl;
+
+  str = "1";
+  std::cout << str.capacity() << std::endl;
+
+  str += "1111";
+  std::cout << str.capacity() << std::endl;
+
+  str += "1111111111111111111111111";
+  std::cout << str.capacity() << std::endl;
+
+  str += "11111111111111111111111111111111111111111111111111";
+  std::cout << str.capacity() << std::endl;
+
   return 0;
 }
+
+
+
+
