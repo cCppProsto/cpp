@@ -7,6 +7,7 @@ SUBDIRS += \
     class_constructors \
     enums \
     gps_tool \
+    lesson_38 \
     stl_vector \
     glfw_engine \
     gPrimitive \
