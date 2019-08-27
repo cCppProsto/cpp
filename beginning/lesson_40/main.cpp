@@ -1,13 +1,9 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
-
-// lesson 40
-// http://artlang.net/post/c++17-gerb-satter-uncaught_exception/
-// https://habr.com/ru/post/433944/
 
 namespace example_1
 {
-
   class A
   {
     public:
@@ -131,7 +127,7 @@ namespace example_3
   {
     public:
       Unit() 
-      // try
+      //try
       { 
         cout << "Unit()" << endl; 
       }
@@ -180,10 +176,17 @@ namespace example_4
   class A
   {
     public:
-      ~A() 
+      ~A()
       { 
-        cout << "~A()" << endl; 
-        func_throw();
+        try
+        {
+          func_throw();
+        }
+        catch(...)
+        {
+          cout << "~A() exception was caught" << endl;
+        }
+        cout << "~A()" << endl;
       }
     private:
       cls_desctructor d;
@@ -208,7 +211,7 @@ namespace example_4
 
 namespace example_5
 {
-  void func_throw()
+  void func_throw()noexcept(false)
   {
     std::cout << "exception happened!" << endl;
     throw 1;
@@ -226,7 +229,7 @@ namespace example_5
   class A
   {
   public:
-    ~A()
+    ~A()noexcept(false)
     {
       cout << "~A()" << endl;
       func_throw();
@@ -255,7 +258,7 @@ namespace example_5
 
 namespace example_6
 {
-  void func_throw()
+  void func_throw()noexcept(false)
   {
     std::cout << "exception happened!" << endl;
     throw 1;
@@ -273,7 +276,7 @@ namespace example_6
   class A
   {
   public:
-    ~A()
+    ~A()noexcept(false)
     {
       cout << "~A()" << endl;
 
@@ -329,6 +332,7 @@ namespace example_7
   {
   public:
     ~A()
+    try
     {
       cout << "~A()" << endl;
 
@@ -341,6 +345,10 @@ namespace example_7
         std::cerr << "~A() normal, throw" << endl;
         func_throw();
       }
+    }
+    catch(...)
+    {
+
     }
   private:
     cls_desctructor d;

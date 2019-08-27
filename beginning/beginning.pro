@@ -9,6 +9,7 @@ SUBDIRS += \
     gps_tool \
     lesson_38 \
     lesson_39 \
+    lesson_40 \
     stl_vector \
     glfw_engine \
     gPrimitive \
